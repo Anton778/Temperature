@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  fetch('https://api.thingspeak.com/channels/2443987/feeds.json?api_key=Z4M6M7RGD9OG8144&results=2')
+  fetch('https://api.thingspeak.com/channels/2443987/feeds.json?api_key=Z4M6M7RGD9OG8144')
     .then(response => response.json())
     .then(data => {
       const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         data: {
           labels: timeLabels,
           datasets: [{
-            label: 'Temperature',
+            label: 'Температура в городе Бердске',
             data: temperatureData,
             borderColor: 'blue',
             backgroundColor: 'lightblue',
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          maintainAspectRatio: true, // Установка для сохранения квадратного соотношения сторон
           scales: {
             xAxes: [{
               type: 'time',
