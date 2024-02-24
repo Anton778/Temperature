@@ -1,44 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<!DOCTYPE html> <!-- Сайт пятого поколения -->
+<html>
+   <head>
+
+<!-- Закомментировали кусок кода
+ <title> Сайт о радиотехнике </title>
+ <style>
+ h1 {
+ color: rgb(50,100,255);
+ font-family: Arial;
+ font-size: 100px;
+ text-align: center;
+   }
+ h2 {
+ color: rgb(5,5,5);
+ font-family: Arial;
+ font-size: 20px;
+ text-align: center;
+   }
+ p {
+ color: blue;
+ font-size: 50px;
+ width: 60%;
+   }
+ </style>
+-->
+    <meta <="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Пример сайта</title>
+    <title>РТ</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-        main {
-            padding: 20px;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
         }
     </style>
+    <!-- KaTeX -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"
+        integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc"
+        crossorigin="anonymous">
+    <script defer
+        src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"
+        integrity="sha384-YNHdsYkH6gMx9y3mRkmcJ2mFUjTd0qNQQvY9VYZgQd7DcN7env35GzlmFaZ23JGp"
+        crossorigin="anonymous"></script>
+    <script defer
+        src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"
+        integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"
+        crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true }
+                ],
+                // • rendering keys, e.g.:
+                throwOnError: false
+            });
+        });
+    </script>
 </head>
-<body>
-    <header>
-        <h1>Мой пример сайта</h1>
-    </header>
-    <main>
-        <h2>Добро пожаловать!</h2>
-        <p>Это пример простого HTML сайта.</p>
-        <p>Здесь вы можете добавить любое содержимое, которое вам нравится.</p>
-        <p>Например, вы можете добавить графики или другие элементы ваших проектов.</p>
-    </main>
-    <footer>
-        <p>© 2024 Мой сайт</p>
-    </footer>
+
+
+
+<h1> Радиотехника</h1>
+<h2><em>Радиоприёмники и радиопередатчики</em></h2>
+
+
 </body>
-</html>
+
+
+ 
