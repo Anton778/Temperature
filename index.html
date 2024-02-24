@@ -1,34 +1,67 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>График температуры</title>
-    
+    <title>Погода и график температуры</title>
     <!-- Подключаем библиотеку Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Стили для элемента canvas, содержащего график */
+        canvas {
+            display: block;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>График температуры</h1>
-    <h2><em>Зависимость температуры на улице от времени</em></h2>
 
-    <!-- Контейнер для графика -->
-    <canvas id="temperatureChart" width="800" height="400"></canvas>
+<h1>Погода и график температуры</h1>
 
-    <!-- Скрипт для создания и настройки графика -->
-    <script>
-        // Получаем ссылку на элемент canvas
-        var ctx = document.getElementById('temperatureChart').getContext('2d');
+<!-- Элемент canvas для отображения графика -->
+<canvas id="temperature-chart"></canvas>
 
-        // Создаем новый график
-        var temperatureChart = new Chart(ctx, {
+<!-- Здесь будет отображаться информация о погоде -->
+<div id="weather-info">
+    <!-- Информация о погоде -->
+</div>
+
+<script>
+    // Замените 'YOUR_API_KEY' на ваш собственный API ключ
+    const apiKey = 703fbd0b511ccae3c90861cc7174c2b3;
+
+    // Функция для получения данных о погоде
+    function getWeather() {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=Moscow&appid=${apiKey}&units=metric`)
+            .then(response => response.json())
+            .then(data => {
+                // Получение данных о температуре
+                const temperature = data.main.temp;
+
+                // Отображение данных о погоде на веб-странице
+                const weatherInfoElement = document.getElementById('weather-info');
+                weatherInfoElement.innerHTML = `<p>Температура: ${temperature} &deg;C</p>`;
+
+                // Создание и настройка графика температуры
+                createTemperatureChart(temperature);
+            })
+            .catch(error => {
+                console.error('Ошибка получения данных о погоде:', error);
+            });
+    }
+
+    // Функция для создания и настройки графика температуры
+    function createTemperatureChart(temperature) {
+        const ctx = document.getElementById('temperature-chart').getContext('2d');
+
+        // Создание нового графика
+        const temperatureChart = new Chart(ctx, {
             type: 'line', // Тип графика (линейный)
             data: {
-                labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл'], // Метки оси X (например, месяцы)
+                labels: ['1', '2', '3', '4', '5'], // Метки оси X (время)
                 datasets: [{
-                    label: 'Температура на улице', // Название набора данных
-                    data: [5, 6, 8, 12, 15, 18, 20], // Данные температуры
+                    label: 'Температура', // Название набора данных
+                    data: [temperature, temperature, temperature, temperature, temperature], // Данные температуры
                     backgroundColor: 'rgba(255, 99, 132, 0.2)', // Цвет заливки области под графиком
                     borderColor: 'rgba(255, 99, 132, 1)', // Цвет линии графика
                     borderWidth: 1 // Ширина линии графика
@@ -37,11 +70,16 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true // Начать шкалу Y с нуля
+                        beginAtZero: true // Начало оси Y с нуля
                     }
                 }
             }
         });
-    </script>
+    }
+
+    // Вызов функции получения данных о погоде при загрузке страницы
+    document.addEventListener('DOMContentLoaded', getWeather);
+</script>
+
 </body>
 </html>
