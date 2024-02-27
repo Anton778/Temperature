@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  fetch('https://api.thingspeak.com/channels/2443987/feeds.json?api_key=YGABPVZSCX5NJB3A')
+  fetch('https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A')
     .then(response => response.json())
     .then(data => {
       const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
