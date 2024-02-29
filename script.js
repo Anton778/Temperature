@@ -6,25 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const timeLabels = data.feeds.map(feed => {
         const date = new Date(feed.created_at);
         date.setHours(date.getHours());
-        return date;
+        return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
       });
-
-      const timeDifferences = [];
-      for (let i = 1; i < timeLabels.length; i++) {
-        const timeDifference = timeLabels[i] - timeLabels[i - 1]; // Вычисляем временную разницу между соседними записями
-        timeDifferences.push(timeDifference);
-      }
-
-      let unit = 'day';
-      let stepSize = 1;
-      if (timeDifferences.length > 0) {
-        const minDifference = Math.min(...timeDifferences); // Находим минимальную временную разницу
-        if (minDifference < 86400000) { // Если минимальная разница меньше одного дня (в миллисекундах)
-          unit = 'hour';
-          stepSize = minDifference / 3600000; // Преобразуем миллисекунды в часы
-        }
-      }
-
+      
       const ctx = document.getElementById('temperatureChart').getContext('2d');
       new Chart(ctx, {
         type: 'line',
@@ -45,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
             xAxes: [{
               type: 'time',
               time: {
-                unit: unit, // Устанавливаем шаг времени
-                stepSize: stepSize, // Шаг времени
+                unit: 'minute', // Устанавливаем шаг времени в минуты
+                stepSize: 5, // Шаг в 5 минут
                 tooltipFormat: 'HH:mm, DD.MM.YYYY', // Формат времени для всплывающей подсказки
                 displayFormats: {
                   hour: 'HH', // Показываем только часы
