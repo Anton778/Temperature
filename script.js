@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
       const timeLabels = data.feeds.map(feed => {
         const date = new Date(feed.created_at);
-        date.setHours(date.getHours() + 7); // Смещение времени на 7 часов вперед (или нужное вам смещение)
+        date.setHours(date.getHours()); 
         return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
       });
       
@@ -29,7 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
             xAxes: [{
               type: 'time',
               time: {
-                unit: 'hour',
+                unit: 'minute', // Устанавливаем шаг времени в минуты
+                stepSize: 5, // Шаг в 5 минут
                 tooltipFormat: 'HH:mm, DD.MM.YYYY', // Формат времени для всплывающей подсказки
                 displayFormats: {
                   hour: 'HH', // Показываем только часы
