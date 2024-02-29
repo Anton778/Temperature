@@ -22,22 +22,28 @@ document.addEventListener('DOMContentLoaded', function() {
           responsive: true,
           maintainAspectRatio: false,
           maintainAspectRatio: true, // Установка для сохранения квадратного соотношения сторон
-          scales: {
-            xAxes: [{
-              type: 'time',
-              time: {
-                unit: 'hour'
-              },
-              distribution: 'linear'
-            }],
-            yAxes: [{
-              scaleLabel: {
-                display: true,
-                labelString: 'Temperature (°C)'
-              }
-            }]
-          }
-        }
+           scales: {
+    xAxes: [{
+      type: 'time',
+      time: {
+        unit: 'hour',
+        displayFormats: {
+          hour: 'MMM D, HH:00', // Отображение месяца, дня и часа
+        },
+        tooltipFormat: 'MMM D, HH:00', // Формат подсказки при наведении
+        stepSize: 6, // Интервал в часах между метками
+        timezone: 'local', // Использовать местное время
+      },
+      distribution: 'linear'
+    }],
+    yAxes: [{
+      scaleLabel: {
+        display: true,
+        labelString: 'Temperature (°C)'
+      }
+    }]
+  }
+}
       });
     })
     .catch(error => console.error('Error fetching data:', error));
