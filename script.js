@@ -25,14 +25,18 @@
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
-        const timeLabels = data.feeds.map(feed => {
-          const date = new Date(feed.created_at);
-          date.setHours(date.getHours());
-          return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
-        });
-        
-        drawChart(timeLabels, temperatureData);
+        if (data.feeds.length === 0) {
+          // Если данные отсутствуют, выводим сообщение
+          document.getElementById('temperatureChart').innerText = 'Данные отсутствуют';
+        } else {
+          const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
+          const timeLabels = data.feeds.map(feed => {
+            const date = new Date(feed.created_at);
+            date.setHours(date.getHours());
+            return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
+          });
+          drawChart(timeLabels, temperatureData);
+        }
       })
       .catch(error => console.error('Ошибка при получении данных:', error));
   }
