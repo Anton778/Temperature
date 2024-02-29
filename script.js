@@ -3,7 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(response => response.json())
     .then(data => {
       const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
-      const timeLabels = data.feeds.map(feed => feed.created_at);
+      const timeLabels = data.feeds.map(feed => {
+        const date = new Date(feed.created_at);
+        date.setHours(date.getHours() + 7); // Смещение времени на 7 часов вперед (или нужное вам смещение)
+        return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
+      });
       
       const ctx = document.getElementById('temperatureChart').getContext('2d');
       new Chart(ctx, {
@@ -21,30 +25,32 @@ document.addEventListener('DOMContentLoaded', function() {
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          maintainAspectRatio: true, // Установка для сохранения квадратного соотношения сторон
-           scales: {
-    xAxes: [{
-      type: 'time',
-      time: {
-        unit: 'hour',
-        displayFormats: {
-          hour: 'MMM D, HH:00', // Отображение месяца, дня и часа
-        },
-        tooltipFormat: 'MMM D, HH:00', // Формат подсказки при наведении
-        stepSize: 6, // Интервал в часах между метками
-        timezone: 'local', // Использовать местное время
-      },
-      distribution: 'linear'
-    }],
-    yAxes: [{
-      scaleLabel: {
-        display: true,
-        labelString: 'Temperature (°C)'
-      }
-    }]
-  }
-}
+          scales: {
+            xAxes: [{
+              type: 'time',
+              time: {
+                unit: 'hour',
+                tooltipFormat: 'HH:mm, DD.MM.YYYY', // Формат времени для всплывающей подсказки
+                displayFormats: {
+                  hour: 'HH', // Показываем только часы
+                  day: 'DD.MM' // Показываем день и месяц
+                }
+              },
+              ticks: {
+                maxRotation: 0, // Отключаем поворот меток
+                autoSkip: true, // Автоматически пропускаем метки, если их слишком много
+                maxTicksLimit: 10 // Максимальное количество меток на оси
+              }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Температура (°C)'
+              }
+            }]
+          }
+        }
       });
     })
-    .catch(error => console.error('Error fetching data:', error));
+    .catch(error => console.error('Ошибка при получении данных:', error));
 });
