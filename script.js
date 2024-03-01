@@ -4,11 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A')
         .then(response => response.json())
         .then(data => {
-            // Получаем ширину экрана
-const screenWidth = window.innerWidth;
-
-// Вычисляем размер точки как 5% от ширины экрана
-const pointSize = screenWidth * 0.05; // Здесь 0.05 соответствует 5%
             const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
             const timeLabels = data.feeds.map(feed => {
                 const date = new Date(feed.created_at);
@@ -27,7 +22,7 @@ const pointSize = screenWidth * 0.05; // Здесь 0.05 соответству�
                         borderColor: 'black',
                         backgroundColor: 'lightblue',
                         fill: false,
-                        pointRadius: pointSize,
+                        pointRadius: 8,
                     }]
                 },
                 options: {
