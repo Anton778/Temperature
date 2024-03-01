@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         borderColor: 'black',
                         backgroundColor: 'lightblue',
                         fill: false,
-                        pointRadius: 8,
+                        //pointRadius: 8%,
                     }]
                 },
                 options: {
