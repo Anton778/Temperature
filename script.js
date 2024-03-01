@@ -91,20 +91,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
             // Выводим минимальную и максимальную температуры под графиком
-const minMaxTemperaturesElement = document.getElementById('minMaxTemperatures');
-minMaxTemperaturesElement.innerHTML = `
-    <p>Минимальная температура: ${minTemperature}°C была получена ${getTimestampOfTemperature(minTemperature, data)}</p>
-    <p>Максимальная температура: ${maxTemperature}°C была получена ${getTimestampOfTemperature(maxTemperature, data)}</p>
-`;
+            const minMaxTemperaturesElement = document.getElementById('minMaxTemperatures');
+            minMaxTemperaturesElement.innerHTML = `
+                <p>Минимальная температура: ${minTemperature}°C была получена ${getTimestampOfTemperature(minTemperature, data)}</p>
+                <p>Максимальная температура: ${maxTemperature}°C была получена ${getTimestampOfTemperature(maxTemperature, data)}</p>
+            `;
 
-// Функция для получения временной метки для заданной температуры
-function getTimestampOfTemperature(temperature, data) {
-    const index = data.feeds.findIndex(feed => parseFloat(feed.field1) === temperature);
-    if (index !== -1) {
-        const timestamp = new Date(data.feeds[index].created_at);
-        return timestamp.toLocaleString('ru-RU');
-    }
-    return 'неизвестно';
+            // Функция для получения временной метки для заданной температуры
+            function getTimestampOfTemperature(temperature, data) {
+                const index = data.feeds.findIndex(feed => parseFloat(feed.field1) === temperature);
+                if (index !== -1) {
+                    const timestamp = new Date(data.feeds[index].created_at);
+                    return timestamp.toLocaleString('ru-RU');
+                }
+                return 'неизвестно';
+            }
         })
         .catch(error => console.error('Ошибка при получении данных:', error));
 });
