@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       
       const ctx = document.getElementById('temperatureChart').getContext('2d');
-      new Chart(ctx, {
+      const chart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: timeLabels,
@@ -29,18 +29,18 @@ document.addEventListener('DOMContentLoaded', function() {
             xAxes: [{
               type: 'time',
               time: {
-                unit: 'minute', // Устанавливаем шаг времени в минуты
-                stepSize: 5, // Шаг в 5 минут
-                tooltipFormat: 'HH:mm, DD.MM.YYYY', // Формат времени для всплывающей подсказки
+                unit: 'minute',
+                stepSize: 5,
+                tooltipFormat: 'HH:mm, DD.MM.YYYY',
                 displayFormats: {
-                  hour: 'HH', // Показываем только часы
-                  day: 'DD.MM' // Показываем день и месяц
+                  hour: 'HH',
+                  day: 'DD.MM'
                 }
               },
               ticks: {
-                maxRotation: 0, // Отключаем поворот меток
-                autoSkip: true, // Автоматически пропускаем метки, если их слишком много
-                maxTicksLimit: 10 // Максимальное количество меток на оси
+                maxRotation: 0,
+                autoSkip: true,
+                maxTicksLimit: 10
               }
             }],
             yAxes: [{
@@ -52,21 +52,21 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         }
       });
-    })
 
-    // Находим максимальную и минимальную температуры
+      // Находим максимальную и минимальную температуры
       const maxTemperature = Math.max(...temperatureData);
       const minTemperature = Math.min(...temperatureData);
 
       // Выделяем максимальную температуру красным цветом
-      if (currentTemperature === maxTemperature) {
-        temperatureElement.style.color = 'red';
-      }
+      const maxIndex = temperatureData.indexOf(maxTemperature);
+      chart.data.datasets[0].pointBackgroundColor[maxIndex] = 'red';
 
       // Выделяем минимальную температуру синим цветом
-      if (currentTemperature === minTemperature) {
-        temperatureElement.style.color = 'blue';
-      }
+      const minIndex = temperatureData.indexOf(minTemperature);
+      chart.data.datasets[0].pointBackgroundColor[minIndex] = 'blue';
+
+      // Обновляем график
+      chart.update();
     })
     .catch(error => console.error('Ошибка при получении данных:', error));
 });
