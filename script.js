@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             const ctx = document.getElementById('temperatureChart').getContext('2d');
-            new Chart(ctx, {
+            const chart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: timeLabels,
@@ -55,8 +55,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // Вызываем функции для поиска и выделения минимальной и максимальной температуры
-            const { maxTemperature, minTemperature } = findMinMaxTemperature(temperatureData);
+            // Находим минимальную и максимальную температуры
+            const maxTemperature = Math.max(...temperatureData);
+            const minTemperature = Math.min(...temperatureData);
+
+            // Функция для выделения минимальной и максимальной температур на графике
+            function highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature) {
+                const dataset = chart.data.datasets[0];
+                const data = dataset.data;
+                const backgroundColors = Array(data.length).fill('lightblue');
+
+                // Находим индексы минимальной и максимальной температур в массиве данных
+                const maxTemperatureIndex = data.findIndex(temp => temp === maxTemperature);
+                const minTemperatureIndex = data.findIndex(temp => temp === minTemperature);
+
+                // Задаем красный цвет для максимальной температуры и синий для минимальной
+                if (maxTemperatureIndex !== -1) {
+                    backgroundColors[maxTemperatureIndex] = 'red';
+                }
+                if (minTemperatureIndex !== -1) {
+                    backgroundColors[minTemperatureIndex] = 'blue';
+                }
+
+                // Обновляем цвета фона для точек графика
+                dataset.backgroundColor = backgroundColors;
+
+                // Обновляем график
+                chart.update();
+            }
+
+            // Вызываем функцию для выделения минимальной и максимальной температуры
             const currentTemperature = temperatureData[temperatureData.length - 1]; // Последнее значение температуры
             highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature);
         })
