@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         options: {
           responsive: true,
-          maintainAspectRatio: false,
+          maintainAspectRatio: true,
           scales: {
             xAxes: [{
               type: 'time',
