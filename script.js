@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         data: temperatureData,
                         borderColor: 'black',
                         backgroundColor: 'lightblue',
-                        fill: false
+                        fill: false,
+                        pointRadius: '2%' // Задаем размер точки
                     }]
                 },
                 options: {
