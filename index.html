@@ -1,12 +1,181 @@
-<!DOCTYPE html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>График температуры</title>
+<!DOCTYPE html> <!-- Сайт пятого поколения -->
+<html>
+   <head>
+
+<!-- Закомментировали кусок кода
+ <title> Сайт о радиотехнике </title>
+ <style>
+ h1 {
+ color: rgb(50,100,255);
+ font-family: Arial;
+ font-size: 100px;
+ text-align: center;
+   }
+ h2 {
+ color: rgb(5,5,5);
+ font-family: Arial;
+ font-size: 20px;
+ text-align: center;
+   }
+ p {
+ color: blue;
+ font-size: 50px;
+ width: 60%;
+   }
+ </style>
+-->
+    <meta <="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>РТ</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+    <!-- KaTeX -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"
+        integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc"
+        crossorigin="anonymous">
+    <script defer
+        src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"
+        integrity="sha384-YNHdsYkH6gMx9y3mRkmcJ2mFUjTd0qNQQvY9VYZgQd7DcN7env35GzlmFaZ23JGp"
+        crossorigin="anonymous"></script>
+    <script defer
+        src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"
+        integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"
+        crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true }
+                ],
+                // • rendering keys, e.g.:
+                throwOnError: false
+            });
+        });
+    </script>
+</head>
+
+
+<body>
+<!-- Вставим фотографию логотипа: -->
+<center>
+<p><img src="logo.jpg" alt="Логотип" ></p>
+</center>
+
+<h1> Радиотехника</h1>
+<h2><em>Радиоприёмники и радиопередатчики</em></h2>
+
+
+
+
+<!-- Картинка тригонометрического круга-->
+
+<div><center>
+<p><img src="trig.jpg" width="700px" align="center" alt="Тригонометрический круг" ></p>
+<!--<p><img src="trig.jpg" width="1000px" vspace="150px" hspace="400px" align="middle" alt="Тригонометрический круг" ></p> -->
+</center></div>
+
+
+
+<p> $ \log_{10} x \text{---} $ десятичный логарифм (логарифм $\textcolor{blue}{x}$ по основанию десять)</p>
+<p> $ \log_{2} x \text{---} $ двоичный логарифм (логарифм $\textcolor{blue}{x}$ по основанию два)
+<p> $ \ln x = \log_e x = \log x \text{---} $ натуральный логарифм (логарифм $\textcolor{blue}{x}$ по основанию $\textcolor{blue}{e}$ (экспоненты))
+
+$$ \ln 1 = 0 $$
+$$ \ln 0 = \infty $$
+$$ \ln e = 1 $$
+
+
+
+
+<div><center> <!-- текст по центру -->
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Иокто</th>
+			<th>Зепто</th>
+			<th>Атто</th>
+			<th>Фемто</th>
+			<th>Пико</th>
+			<th>Нано</th>
+			<th>Микро</th>
+              <th>Мили</th>
+              <th>Санти</th>
+              <th>Деци</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>$10^{-24}$</td>
+			<td>$10^{-21}$</td>
+			<td>$10^{-18}$</td>
+			<td>$10^{-15}$</td>
+			<td>$10^{-12}$</td>
+			<td>$10^{-9}$</td>
+			<td>$10^{-6}$</td>
+			<td>$10^{-3}$</td>
+			<td>$10^{-2}$</td>
+			<td>$10^{-1}$</td>
+		</tr>
+		Таблица 1 – Приставки СИ (системы единиц). Дольные единицы
+	</tbody>
+ <link rel="stylesheet" href="table.css">
+</table>
+
+
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Дека</th>
+			<th>Гекто</th>
+			<th>Кило</th>
+			<th>Мега</th>
+			<th>Гига</th>
+			<th>Тера</th>
+			<th>Пета</th>
+              <th>Экса</th>
+              <th>Зетта</th>
+              <th>Иотта</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>$10^{1}$</td>
+			<td>$10^{2}$</td>
+			<td>$10^{3}$</td>
+			<td>$10^{6}$</td>
+			<td>$10^{9}$</td>
+			<td>$10^{12}$</td>
+			<td>$10^{15}$</td>
+			<td>$10^{18}$</td>
+			<td>$10^{21}$</td>
+			<td>$10^{24}$</td>
+		</tr>
+		Таблица 2 –  Приставки СИ (системы единиц). Кратные единицы
+	</tbody>
+ <link rel="stylesheet" href="table.css">
+</table>
+</center></div>
+<title>График температуры</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Подключение библиотеки Chart.js -->
 </head>
 <body>
   <canvas id="temperatureChart" width="800" height="400"></canvas> <!-- Элемент для отображения графика -->
   <script src="script.js"></script> <!-- Подключение скрипта с JavaScript-кодом -->
+
 </body>
-</html>
+
+
+ 
