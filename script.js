@@ -53,5 +53,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     })
+
+    // Находим максимальную и минимальную температуры
+      const maxTemperature = Math.max(...temperatureData);
+      const minTemperature = Math.min(...temperatureData);
+
+      // Выделяем максимальную температуру красным цветом
+      if (currentTemperature === maxTemperature) {
+        temperatureElement.style.color = 'red';
+      }
+
+      // Выделяем минимальную температуру синим цветом
+      if (currentTemperature === minTemperature) {
+        temperatureElement.style.color = 'blue';
+      }
+    })
     .catch(error => console.error('Ошибка при получении данных:', error));
 });
