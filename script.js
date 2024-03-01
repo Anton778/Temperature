@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
             data: temperatureData,
             borderColor: 'blue',
             backgroundColor: 'lightblue',
-            fill: false
+            fill: false,
+            pointBackgroundColor: temperatureData.map(temp => 'lightblue') // Устанавливаем цвета всех точек по умолчанию
           }]
         },
         options: {
