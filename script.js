@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     datasets: [{
                         label: 'Температура в городе Бердске',
                         data: temperatureData,
-                        borderColor: 'blue',
+                        borderColor: 'black',
                         backgroundColor: 'lightblue',
                         fill: false
                     }]
