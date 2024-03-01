@@ -22,7 +22,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         borderColor: 'black',
                         backgroundColor: 'lightblue',
                         fill: false,
-                        pointRadius: '2%' // Задаем размер точки
+                        pointRadius: temperatureData.map(temp => {
+                             if (temp === maxTemperature || temp === minTemperature) {
+                             return 2%; // Установите желаемый размер для минимальной и максимальной температуры
+                              } else {
+                               return 8%; // Установите желаемый размер для остальных точек
+                              }
                     }]
                 },
                 options: {
