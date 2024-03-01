@@ -1,8 +1,30 @@
-<!DOCTYPE html>
-<html lang="ru"> <!-- Добавлен языковой атрибут -->
+<!DOCTYPE html> <!-- Сайт пятого поколения -->
+<html>
+   <head>
 
-<head>
-    <meta charset="UTF-8">
+<!-- Закомментировали кусок кода
+ <title> Сайт о радиотехнике </title>
+ <style>
+ h1 {
+ color: rgb(50,100,255);
+ font-family: Arial;
+ font-size: 100px;
+ text-align: center;
+   }
+ h2 {
+ color: rgb(5,5,5);
+ font-family: Arial;
+ font-size: 20px;
+ text-align: center;
+   }
+ p {
+ color: blue;
+ font-size: 50px;
+ width: 60%;
+   }
+ </style>
+-->
+    <meta <="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>РТ</title>
@@ -11,22 +33,23 @@
             font-family: Arial, Helvetica, sans-serif;
         }
     </style>
+    
 </head>
+
 
 <body>
 
-<h1>Температура</h1>
+<h1> Температура</h1>
 <h2><em>Температура на улице в городе Бердске</em></h2>
 
-<canvas id="temperatureChart" width="800" height="400"></canvas>
-<div id="currentTemperature" style="font-size: 24px; font-weight: bold;"></div>
+<title>График температуры</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Подключение библиотеки Chart.js -->
+<script src="currentTemperature.js"></script> <!-- Подключение скрипта для отображения текущей температуры -->
+</head>
+<body>
+  <canvas id="temperatureChart" width="800" height="400"></canvas> <!-- Элемент для отображения графика -->
+<div id="currentTemperature" style="font-size: 24px; font-weight: bold;"></div> <!-- Блок для отображения текущей температуры -->
 
-<!-- Удален повторный открывающий тег head -->
-<!-- <head> -->
-
-<script src="script.js"></script> <!-- Подключение скрипта с JavaScript-кодом -->
-
-<!-- </head> --> <!-- Закрыт тег head (нужно удалить, так как он уже открыт выше) -->
+  <script src="script.js"></script> <!-- Подключение скрипта с JavaScript-кодом -->
 
 </body>
-</html>
