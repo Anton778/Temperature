@@ -1,4 +1,5 @@
-const defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A'; // Определение defaultUrl
+// Глобальная переменная для хранения URL по умолчанию
+let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
 
 document.addEventListener('DOMContentLoaded', function() {
     // Функция для загрузки данных и построения графика
@@ -109,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchDataAndDrawChart(url);
     });
 
-    // Обработчик кнопки "За все время"
+    // Обработчик кнопки "За всё время"
     document.getElementById('btnAllTime').addEventListener('click', function() {
         fetchDataAndDrawChart(defaultUrl);
     });
