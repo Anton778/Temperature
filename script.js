@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchDataAndDrawChart(url);
     });
 
-    // Обработчик кнопки "За всё время"
+    // Обработчик кнопки "За все время"
     document.getElementById('btnAllTime').addEventListener('click', function() {
         fetchDataAndDrawChart(defaultUrl);
     });
