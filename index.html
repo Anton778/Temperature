@@ -49,6 +49,24 @@
     <button id="btnDay">За день</button>
     <button id="btnAllTime">За всё время</button>
 </div>
-  <script src="script.js"></script> <!-- Подключение скрипта с JavaScript-кодом -->
 
+<canvas id="temperatureChart" width="800" height="400"></canvas>
+<div id="minMaxTemperatures" style="font-size: 18px; font-weight: bold;"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script> <!-- Подключение скрипта с JavaScript-кодом -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnDay = document.getElementById('btnDay');
+    const btnAllTime = document.getElementById('btnAllTime');
+
+    btnDay.addEventListener('click', function() {
+        fetchDataAndDrawChart('https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A&days=1');
+    });
+
+    btnAllTime.addEventListener('click', function() {
+        fetchDataAndDrawChart('https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A');
+    });
+});
+</script>
 </body>
