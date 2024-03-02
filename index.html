@@ -1,29 +1,7 @@
-<!DOCTYPE html> <!-- Сайт пятого поколения -->
-<html>
-   <head>
-<!-- Закомментировали кусок кода
- <title> Метео </title>
- <style>
- h1 {
- color: rgb(50,100,255);
- font-family: Arial;
- font-size: 100px;
- text-align: center;
-   }
- h2 {
- color: rgb(5,5,5);
- font-family: Arial;
- font-size: 20px;
- text-align: center;
-   }
- p {
- color: blue;
- font-size: 50px;
- width: 60%;
-   }
- </style>
--->
-    <meta <="UTF-8">
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Метео</title>
@@ -32,29 +10,21 @@
             font-family: Arial, Helvetica, sans-serif;
         }
     </style>
-    
 </head>
 <body>
-<h1> Температура</h1>
+<h1>Температура</h1>
 <h2><em>Температура на улице в городе Бердске</em></h2>
-<title>График температуры</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Подключение библиотеки Chart.js -->
-<script src="currentTemperature.js"></script> <!-- Подключение скрипта для отображения текущей температуры -->
-</head>
-<body>
-  <canvas id="temperatureChart" width="800" height="400"></canvas> <!-- Элемент для отображения графика -->
-<div id="currentTemperature" style="font-size: 24px; font-weight: bold;"></div> <!-- Блок для отображения текущей температуры -->
-<div id="minMaxTemperatures"></div> <!-- Элемент для отображения минимальной и максимальной температуры -->
+
+<canvas id="temperatureChart" width="800" height="400"></canvas>
+<div id="minMaxTemperatures" style="font-size: 18px; font-weight: bold;"></div>
+
 <div>
     <button id="btnDay">За день</button>
     <button id="btnAllTime">За всё время</button>
 </div>
 
-<canvas id="temperatureChart" width="800" height="400"></canvas>
-<div id="minMaxTemperatures" style="font-size: 18px; font-weight: bold;"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="script.js"></script> <!-- Подключение скрипта с JavaScript-кодом -->
+<script src="script.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const btnDay = document.getElementById('btnDay');
@@ -70,3 +40,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 </body>
+</html>
