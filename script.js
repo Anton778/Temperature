@@ -8,11 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
-                const timeLabels = data.feeds.map(feed => {
-                    const date = new Date(feed.created_at);
-                    date.setHours(date.getHours());
-                    return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
-                });
+                const dates = data.feeds.map(feed => new Date(feed.created_at));
+
+                // Определение минимальной и максимальной даты
+                const minDate = new Date(Math.min(...dates));
+                const maxDate = new Date(Math.max(...dates));
+
+                // Разделение промежутка между минимальной и максимальной датой на 10 частей
+                const interval = (maxDate - minDate) / 10;
+                const timeLabels = Array.from({ length: 10 }, (_, index) => new Date(minDate.getTime() + index * interval));
+
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 const chart = new Chart(ctx, {
                     type: 'line',
