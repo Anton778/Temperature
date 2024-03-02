@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
-                const recordNumbers = data.feeds.map((_, index) => index + 1); // Массив порядковых номеров записей
+                const timeLabels = data.feeds.map(feed => new Date(feed.created_at));
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 const chart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: recordNumbers, // Используем порядковые номера записей в качестве меток на оси X
+                        labels: timeLabels,
                         datasets: [{
                             label: 'Температура в городе Бердске',
                             data: temperatureData,
@@ -25,9 +25,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         maintainAspectRatio: true,
                         scales: {
                             xAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Порядковый номер записи'
+                                type: 'time',
+                                time: {
+                                    unit: 'hour', // Используем часы в качестве единицы времени
+                                    stepSize: 1, // Шаг в один час
+                                    tooltipFormat: 'HH:mm, DD.MM.YYYY',
+                                    displayFormats: {
+                                        hour: 'HH:mm, DD.MM.YYYY' // Формат отображения времени
+                                    }
+                                },
+                                ticks: {
+                                    maxRotation: 0,
+                                    autoSkip: true,
+                                    maxTicksLimit: 10
                                 }
                             }],
                             yAxes: [{
