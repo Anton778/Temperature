@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
+    const defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A'; // Определение defaultUrl
 
     // Функция для загрузки данных и построения графика
     function fetchDataAndDrawChart(url) {
@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Ошибка при получении данных:', error));
     }
 
-    // Загружаем график по умолчанию при загрузке страницы
     fetchDataAndDrawChart(defaultUrl);
 
     // Обработчик кнопки "За день"
