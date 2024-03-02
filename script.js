@@ -5,7 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
-                const timeLabels = data.feeds.map(feed => new Date(feed.created_at).getTime()); // Преобразуем дату в миллисекунды
+                const timeLabels = data.feeds.map(feed => {
+                    const date = new Date(feed.created_at);
+                    date.setHours(date.getHours());
+                    return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
+                });
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 const chart = new Chart(ctx, {
@@ -27,11 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             xAxes: [{
                                 type: 'time',
                                 time: {
-                                    unit: 'hour', // Используем часы в качестве единицы времени
-                                    stepSize: 1, // Шаг в один час
+                                    unit: 'minute',
+                                    stepSize: 5,
                                     tooltipFormat: 'HH:mm, DD.MM.YYYY',
                                     displayFormats: {
-                                        hour: 'HH:mm, DD.MM.YYYY' // Формат отображения времени
+                                        hour: 'HH',
+                                        day: 'DD.MM'
                                     }
                                 },
                                 ticks: {
