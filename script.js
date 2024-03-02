@@ -1,32 +1,3 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Метео</title>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-    </style>
-</head>
-<body>
-
-<h1>Температура</h1>
-<h2><em>Температура на улице в городе Бердске</em></h2>
-
-<canvas id="temperatureChart" width="800" height="400"></canvas>
-<div id="currentTemperature" style="font-size: 24px; font-weight: bold;"></div>
-<div id="minMaxTemperatures"></div>
-
-<button id="btnDay">За день</button>
-<button id="btnAllTime">За все время</button>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="script.js"></script>
-
-<script>
 document.addEventListener('DOMContentLoaded', function() {
     // Функция для загрузки данных и построения графика
     function fetchDataAndDrawChart(url) {
@@ -128,20 +99,17 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Ошибка при получении данных:', error));
     }
 
-    const defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
+    // Загружаем график по умолчанию при загрузке страницы
     fetchDataAndDrawChart(defaultUrl);
 
+    // Обработчик кнопки "За день"
     document.getElementById('btnDay').addEventListener('click', function() {
         const url = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A&days=1';
         fetchDataAndDrawChart(url);
     });
 
+    // Обработчик кнопки "За все время"
     document.getElementById('btnAllTime').addEventListener('click', function() {
-        const url = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
-        fetchDataAndDrawChart(url);
+        fetchDataAndDrawChart(defaultUrl);
     });
 });
-</script>
-
-</body>
-</html>
