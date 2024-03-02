@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 type: 'time',
                                 time: {
                                     unit: 'minute',
-                                    stepSize: 5,
+                                    stepSize: 100,
                                     tooltipFormat: 'HH:mm, DD.MM.YYYY',
                                     displayFormats: {
                                         hour: 'HH',
