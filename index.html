@@ -10,34 +10,22 @@
             font-family: Arial, Helvetica, sans-serif;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="currentTemperature.js"></script>
+    <script src="script.js"></script>
 </head>
 <body>
-<h1>Температура</h1>
+
+<h1> Температура</h1>
 <h2><em>Температура на улице в городе Бердске</em></h2>
+
+<div>
+    <button id="btnDay">За день</button>
+    <button id="btnAllTime">За все время</button>
+</div>
 
 <canvas id="temperatureChart" width="800" height="400"></canvas>
 <div id="minMaxTemperatures" style="font-size: 18px; font-weight: bold;"></div>
 
-<div>
-    <button id="btnDay">За день</button>
-    <button id="btnAllTime">За всё время</button>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="script.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const btnDay = document.getElementById('btnDay');
-    const btnAllTime = document.getElementById('btnAllTime');
-
-    btnDay.addEventListener('click', function() {
-        fetchDataAndDrawChart('https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A&days=1');
-    });
-
-    btnAllTime.addEventListener('click', function() {
-        fetchDataAndDrawChart('https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A');
-    });
-});
-</script>
 </body>
 </html>
