@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const minMaxTemperaturesElement = document.getElementById('minMaxTemperatures');
                 minMaxTemperaturesElement.innerHTML = `
-                    <p>Текущая температура: ${currentTemperature}°C</p>
+                    //<p>Текущая температура: ${currentTemperature}°C</p>
                     <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
                     <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
                 `;
