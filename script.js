@@ -1,7 +1,7 @@
-// Глобальная переменная для хранения URL по умолчанию
-let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
-
 document.addEventListener('DOMContentLoaded', function() {
+    // Глобальная переменная для хранения URL по умолчанию
+    let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
+
     // Функция для загрузки данных и построения графика
     function fetchDataAndDrawChart(url) {
         fetch(url)
@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const minMaxTemperaturesElement = document.getElementById('minMaxTemperatures');
                 minMaxTemperaturesElement.innerHTML = `
-                    //<p>Текущая температура: ${currentTemperature}°C</p>
                     <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
                     <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
                 `;
@@ -102,8 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Ошибка при получении данных:', error));
     }
 
-    fetchDataAndDrawChart(defaultUrl);
-
     // Обработчик кнопки "За день"
     document.getElementById('btnDay').addEventListener('click', function() {
         const url = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A&days=1';
@@ -114,4 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btnAllTime').addEventListener('click', function() {
         fetchDataAndDrawChart(defaultUrl);
     });
+
+    // Вызываем функцию для загрузки данных и построения графика по умолчанию
+    fetchDataAndDrawChart(defaultUrl);
 });
