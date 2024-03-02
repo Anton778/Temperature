@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const maxTemperature = Math.max(...temperatureData);
                 const minTemperature = Math.min(...temperatureData);
+                const currentTemperature = temperatureData[temperatureData.length - 1];
 
                 function highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature) {
                     const dataset = chart.data.datasets[0];
@@ -106,11 +107,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     chart.update();
                 }
 
-                const currentTemperature = temperatureData[temperatureData.length - 1];
                 highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature);
 
                 const minMaxTemperaturesElement = document.getElementById('minMaxTemperatures');
                 minMaxTemperaturesElement.innerHTML = `
+                    <p>Текущая температура: ${currentTemperature}°C</p>
                     <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
                     <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
                 `;
@@ -130,18 +131,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
     fetchDataAndDrawChart(defaultUrl);
 
-    // Обработчик события для кнопки "За день"
     document.getElementById('btnDay').addEventListener('click', function() {
         const url = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A&days=1';
         fetchDataAndDrawChart(url);
     });
 
-    // Обработчик события для кнопки "За все время"
     document.getElementById('btnAllTime').addEventListener('click', function() {
         const url = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
         fetchDataAndDrawChart(url);
     });
-
 });
 </script>
 
