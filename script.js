@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 },
                                 ticks: {
                                     maxRotation: 0,
-                                    autoSkip: true,
+                                    autoSkip: false,
                                     maxTicksLimit: 10
                                 }
                             }],
