@@ -1,8 +1,3 @@
-// script.js
-
-// Глобальная переменная для хранения URL по умолчанию
-let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
-
 document.addEventListener('DOMContentLoaded', function() {
     // Функция для загрузки данных и построения графика
     function fetchDataAndDrawChart(url) {
@@ -10,17 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
-                const timeLabels = data.feeds.map(feed => {
-                    const date = new Date(feed.created_at);
-                    date.setHours(date.getHours());
-                    return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
-                });
+                const recordNumbers = data.feeds.map((_, index) => index + 1); // Массив порядковых номеров записей
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 const chart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: timeLabels,
+                        labels: recordNumbers, // Используем порядковые номера записей в качестве меток на оси X
                         datasets: [{
                             label: 'Температура в городе Бердске',
                             data: temperatureData,
@@ -34,20 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         maintainAspectRatio: true,
                         scales: {
                             xAxes: [{
-                                type: 'time',
-                                time: {
-                                    unit: 'minute',
-                                    stepSize: 5,
-                                    tooltipFormat: 'HH:mm, DD.MM.YYYY',
-                                    displayFormats: {
-                                        hour: 'HH',
-                                        day: 'DD.MM'
-                                    }
-                                },
-                                ticks: {
-                                    maxRotation: 0,
-                                    autoSkip: true,
-                                    maxTicksLimit: 10
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Порядковый номер записи'
                                 }
                             }],
                             yAxes: [{
@@ -59,47 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 });
-
-                const maxTemperature = Math.max(...temperatureData);
-                const minTemperature = Math.min(...temperatureData);
-                const currentTemperature = temperatureData[temperatureData.length - 1];
-
-                function highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature) {
-                    const dataset = chart.data.datasets[0];
-                    const data = dataset.data;
-                    const backgroundColors = Array(data.length).fill('lightblue');
-
-                    const maxTemperatureIndex = data.findIndex(temp => temp === maxTemperature);
-                    const minTemperatureIndex = data.findIndex(temp => temp === minTemperature);
-
-                    if (maxTemperatureIndex !== -1) {
-                        backgroundColors[maxTemperatureIndex] = 'red';
-                    }
-                    if (minTemperatureIndex !== -1) {
-                        backgroundColors[minTemperatureIndex] = 'blue';
-                    }
-
-                    dataset.backgroundColor = backgroundColors;
-                    chart.update();
-                }
-
-                highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature);
-
-                const minMaxTemperaturesElement = document.getElementById('minMaxTemperatures');
-                minMaxTemperaturesElement.innerHTML = `
-                    <p>Текущая температура: ${currentTemperature}°C</p>
-                    <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
-                    <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
-                `;
-
-                function getTimestampOfTemperature(temperature, data) {
-                    const index = data.feeds.findIndex(feed => parseFloat(feed.field1) === temperature);
-                    if (index !== -1) {
-                        const timestamp = new Date(data.feeds[index].created_at);
-                        return timestamp.toLocaleString('ru-RU');
-                    }
-                    return 'неизвестно';
-                }
             })
             .catch(error => console.error('Ошибка при получении данных:', error));
     }
