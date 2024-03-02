@@ -1,7 +1,9 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Глобальная переменная для хранения URL по умолчанию
-    let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
+// script.js
 
+// Глобальная переменная для хранения URL по умолчанию
+let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
+
+document.addEventListener('DOMContentLoaded', function() {
     // Функция для загрузки данных и построения графика
     function fetchDataAndDrawChart(url) {
         fetch(url)
@@ -85,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const minMaxTemperaturesElement = document.getElementById('minMaxTemperatures');
                 minMaxTemperaturesElement.innerHTML = `
+                    <p>Текущая температура: ${currentTemperature}°C</p>
                     <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
                     <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
                 `;
@@ -112,6 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchDataAndDrawChart(defaultUrl);
     });
 
-    // Вызываем функцию для загрузки данных и построения графика по умолчанию
+    // Загружаем график по умолчанию при загрузке страницы
     fetchDataAndDrawChart(defaultUrl);
 });
