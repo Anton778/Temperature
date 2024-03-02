@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A'; // Определение defaultUrl
+const defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A'; // Определение defaultUrl
 
+document.addEventListener('DOMContentLoaded', function() {
     // Функция для загрузки данных и построения графика
     function fetchDataAndDrawChart(url) {
         fetch(url)
