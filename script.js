@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let chart; // Добавляем переменную для хранения объекта Chart
     // Функция для загрузки данных и построения графика
     function fetchDataAndDrawChart(url) {
-                if (chart) {
+               // if (chart) {
             chart.destroy();
-                     }
+                    // }
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -108,5 +108,5 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchDataAndDrawChart(defaultUrl);
     });
     // Загружаем график по умолчанию при загрузке страницы
-    //fetchDataAndDrawChart(defaultUrl);
+    fetchDataAndDrawChart(defaultUrl);
 });
