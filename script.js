@@ -2,8 +2,12 @@
 // Глобальная переменная для хранения URL по умолчанию
 let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
 document.addEventListener('DOMContentLoaded', function() {
+    let chart; // Добавляем переменную для хранения объекта Chart
     // Функция для загрузки данных и построения графика
     function fetchDataAndDrawChart(url) {
+                if (chart) {
+            chart.destroy();
+                     }
         fetch(url)
             .then(response => response.json())
             .then(data => {
