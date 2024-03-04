@@ -5,9 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let chart; // Добавляем переменную для хранения объекта Chart
     // Функция для загрузки данных и построения графика
     function fetchDataAndDrawChart(url) {
-               // if (chart) {
-            chart.destroy();
-                    // }
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -99,12 +96,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Обработчик кнопки "За день"
     document.getElementById('btnDay').addEventListener('click', function() {
         const url = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A&days=1';
+        chart.destroy();
         fetchDataAndDrawChart(url);
     });
 
     // Обработчик кнопки "За всё время"
     // Обработчик кнопки "За все время"
     document.getElementById('btnAllTime').addEventListener('click', function() {
+        chart.destroy();
         fetchDataAndDrawChart(defaultUrl);
     });
     // Загружаем график по умолчанию при загрузке страницы
