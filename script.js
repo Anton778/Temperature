@@ -104,5 +104,5 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchDataAndDrawChart(defaultUrl);
     });
     // Загружаем график по умолчанию при загрузке страницы
-    fetchDataAndDrawChart(defaultUrl);
+    //fetchDataAndDrawChart(defaultUrl);
 });
