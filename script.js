@@ -79,14 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchDataAndDrawChart(defaultUrl);
     });
 
-    // Обработчик кнопки "Удалить график"
-    document.getElementById('btnRemoveChart').addEventListener('click', function() {
-        if (chart) {
-            chart.destroy();
-            chart = null; // Сбрасываем переменную chart
-        }
-    });
-
     // Загружаем график по умолчанию при загрузке страницы
     fetchDataAndDrawChart(defaultUrl);
 });
