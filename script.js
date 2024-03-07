@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>Текущая температура: ${currentTemperature}°C</p>
                     <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
                     <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
-                    <p>Суточный ходо температуры воздуха: ${dailyTemperatureRange}°C </p>
+                    <p>Суточный ход температуры воздуха: ${dailyTemperatureRange}°C </p>
                 `;
                 function getTimestampOfTemperature(temperature, data) {
                     const index = data.feeds.findIndex(feed => parseFloat(feed.field1) === temperature);
