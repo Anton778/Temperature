@@ -58,6 +58,40 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 });
+
+const maxTemperature = Math.max(...temperatureData);
+                const minTemperature = Math.min(...temperatureData);
+                const currentTemperature = temperatureData[temperatureData.length - 1];
+                function highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature) {
+                    const dataset = chart.data.datasets[0];
+                    const data = dataset.data;
+                    const backgroundColors = Array(data.length).fill('lightblue');
+                    const maxTemperatureIndex = data.findIndex(temp => temp === maxTemperature);
+                    const minTemperatureIndex = data.findIndex(temp => temp === minTemperature);
+                    if (maxTemperatureIndex !== -1) {
+                        backgroundColors[maxTemperatureIndex] = 'red';
+                    }
+                    if (minTemperatureIndex !== -1) {
+                        backgroundColors[minTemperatureIndex] = 'blue';
+                    }
+                    dataset.backgroundColor = backgroundColors;
+                    chart.update();
+                }
+                highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature);
+                const minMaxTemperaturesElement = document.getElementById('minMaxTemperatures');
+                minMaxTemperaturesElement.innerHTML = `
+                    <p>Текущая температура: ${currentTemperature}°C</p>
+                    <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
+                    <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
+                `;
+                function getTimestampOfTemperature(temperature, data) {
+                    const index = data.feeds.findIndex(feed => parseFloat(feed.field1) === temperature);
+                    if (index !== -1) {
+                        const timestamp = new Date(data.feeds[index].created_at);
+                        return timestamp.toLocaleString('ru-RU');
+                    }
+                    return 'неизвестно';
+                }              
             })
             .catch(error => console.error('Ошибка при получении данных:', error));
     }
