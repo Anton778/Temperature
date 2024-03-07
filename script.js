@@ -63,6 +63,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const minTemperature = Math.min(...temperatureData);
                 const currentTemperature = temperatureData[temperatureData.length - 1];
                 const dailyTemperatureRange = maxTemperature - minTemperature;
+                const averageTemperature = temperatureData.reduce((sum, temp) => sum + temp, 0) / temperatureData.length;
+
+                
                 function highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature) {
                     const dataset = chart.data.datasets[0];
                     const data = dataset.data;
@@ -85,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
                     <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
                     ${url.includes('days=1') ? `<p>Суточный ход температуры воздуха: ${dailyTemperatureRange}°C </p>` : ''}
+                    <p>Средняя температура воздуха: ${averageTemperature.toFixed(2)}°C</p> // .toFixed(2) чтобы округлить среднюю температуру до двух знаков после запятой.
                 `;
                 function getTimestampOfTemperature(temperature, data) {
                     const index = data.feeds.findIndex(feed => parseFloat(feed.field1) === temperature);
