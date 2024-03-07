@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 function getTimestampOfTemperature(temperature, data) {
                     const index = data.feeds.findIndex(feed => parseFloat(feed.field1) === temperature);
-                    if (index !== -1) {
+                   if (index !== -1) {
                         const timestamp = new Date(data.feeds[index].created_at);
                         return timestamp.toLocaleString('ru-RU');
                     }
