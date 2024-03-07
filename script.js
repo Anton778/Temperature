@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>Текущая температура: ${currentTemperature}°C</p>
                     <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
                     <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
-                    ${url.includes('days=1') ? `<p>Суточный ход температуры воздуха: ${dailyTemperatureRange}°C </p>` : ''}
+                    ${url.includes('days=1') ? `<p>Суточный ход температуры воздуха: ${dailyTemperatureRange.toFixed(2)}°C </p>` : ''}
                     <p>Средняя температура воздуха: ${averageTemperature.toFixed(2)}°C</p>
                 `;
                 function getTimestampOfTemperature(temperature, data) {
