@@ -80,7 +80,7 @@ function drawChart(timeLabels, temperatureData) {
     });
 }
 
-// Обработчик кнопки "За день"
+// Обработчик кнопки "За день "
 document.getElementById('btnDay').addEventListener('click', function() {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Устанавливаем время на начало текущего дня
