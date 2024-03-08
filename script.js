@@ -33,17 +33,6 @@ temperatureData.push(25); // Например, задаем температур
         .catch(error => console.error('Ошибка при получении данных:', error));
 }
 
-// Функция поиска температуры для заданного времени
-function findTemperatureForTime(time, feeds) {
-    // Проходим по всем данным и ищем температуру для заданного времени
-    for (const feed of feeds) {
-        const feedTime = new Date(feed.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-        if (feedTime === time) {
-            return parseFloat(feed.field1); // Возвращаем температуру для найденного времени
-        }
-    }
-    return null; // Если данных нет для заданного времени, возвращаем null
-}
 
 // Функция для отображения графика
 function drawChart(timeLabels, temperatureData) {
