@@ -104,12 +104,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Обработчик кнопки "За день"
     document.getElementById('btnDay').addEventListener('click', function() {
+        const today = new Date();
+    today.setHours(0, 0, 0, 0); // Устанавливаем время на начало текущего дня
+    const startOfDay = today.toISOString(); // Получаем строку с датой начала текущего дня в формате ISO
+    const url = `https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A&start=${startOfDay}`;
         const url = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A&days=1';
         if (chart) {
             chart.destroy();
         }
         fetchDataAndDrawChart(url);
     });
+
+
+    
 
     // Обработчик кнопки "За все время"
     document.getElementById('btnAllTime').addEventListener('click', function() {
