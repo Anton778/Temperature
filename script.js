@@ -6,7 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Функция для загрузки данных и построения графика
     function fetchDataAndDrawChart(url) {
         fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка загрузки данных');
+                }
+                return response.json();
+            })
             .then(data => {
                 // Создаем массив временных меток с интервалом в 1 час от 00:00 до 23:59
                 const timeLabels = [];
@@ -39,7 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>Средняя температура: ${averageTemperature.toFixed(2)}°C</p>
                 `;
             })
-            .catch(error => console.error('Ошибка при получении данных:', error));
+            .catch(error => {
+                console.error('Ошибка при получении данных:', error);
+                // Выводим сообщение об ошибке на странице
+                const errorMessageElement = document.getElementById('errorMessage');
+                errorMessageElement.textContent = 'Ошибка загрузки данных. Пожалуйста, попробуйте еще раз.';
+            });
     }
 
     // Функция поиска температуры для заданного времени
@@ -76,15 +86,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     xAxes: [{
                         type: 'time',
                         time: {
-                            parser: 'HH:mm',
                             unit: 'hour',
-                            unitStepSize: 1,
+                            tooltipFormat: 'HH:mm',
                             displayFormats: {
                                 hour: 'HH:mm'
-                            },
-                            min: '00:00', // Начало графика с 00:00
-                            max: '23:59', // Окончание графика с 23:59
-                            tooltipFormat: 'HH:mm'
+                            }
                         }
                     }],
                     yAxes: [{
