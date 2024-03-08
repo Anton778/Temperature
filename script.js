@@ -1,9 +1,17 @@
 // Глобальные переменные
-let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
 let chart; // Переменная для хранения объекта Chart
 
 // Функция для загрузки данных и построения графика
-function fetchDataAndDrawChart(url) {
+function fetchDataAndDrawChart() {
+    // Определяем начало текущего дня
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const startOfDay = today.toISOString();
+
+    // URL для запроса данных за сутки
+    const url = `https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A&start=${startOfDay}`;
+
+    // Запрос данных
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -80,19 +88,7 @@ function drawChart(timeLabels, temperatureData) {
     });
 }
 
-// Обработчик кнопки "За день "
-document.getElementById('btnDay').addEventListener('click', function() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Устанавливаем время на начало текущего дня
-    const startOfDay = today.toISOString(); // Получаем строку с датой начала текущего дня в формате ISO
-    const url = `https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A&start=${startOfDay}`;
-    if (chart) {
-        chart.destroy();
-    }
-    fetchDataAndDrawChart(url);
-});
-
-// Загружаем график за сутки по умолчанию при загрузке страницы
+// Загружаем график за сутки при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('btnDay').click();
+    fetchDataAndDrawChart();
 });
