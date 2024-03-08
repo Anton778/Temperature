@@ -1,29 +1,9 @@
-// Функция для загрузки данных и построения графика
-function fetchDataAndDrawChart() {
-    // Определяем начало текущего дня
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const startOfDay = today.toISOString();
+// Глобальные переменные
+let chart; // Переменная для хранения объекта Chart
 
-    // URL для запроса данных за сутки
-    const url = `https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A&start=${startOfDay}`;
-
-    // Запрос данных
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            // Создаем массив данных температуры
-            const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
-            
-            // Создаем массив данных времени
-            const timeLabels = data.feeds.map(feed => new Date(feed.created_at));
-
-            // Отображаем график с скорректированными данными
-            drawChart(timeLabels, temperatureData);
-        })
-        .catch(error => console.error('Ошибка при получении данных:', error));
-}
-
+// Данные о температуре и времени
+const temperatureData = [4, 5]; // Замените данными о температуре из вашего набора данных
+const timeLabels = ['8:33', '9:45']; // Замените данными о времени из вашего набора данных
 
 // Функция для отображения графика
 function drawChart(timeLabels, temperatureData) {
@@ -53,7 +33,7 @@ function drawChart(timeLabels, temperatureData) {
                             hour: 'HH:mm'
                         },
                         min: '00:00', // Установка начального времени на 00:00
-                        max: '23:00', // Установка конечного времени на 00:00
+                        max: '23:00', // Установка конечного времени на 23:00
                     },
                     ticks: {
                         stepSize: 1 // Шаг оси в 1 час
@@ -70,7 +50,7 @@ function drawChart(timeLabels, temperatureData) {
     });
 }
 
-// Загружаем график за сутки при загрузке страницы
+// Загружаем график при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
-    fetchDataAndDrawChart();
+    drawChart(timeLabels, temperatureData);
 });
