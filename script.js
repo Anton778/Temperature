@@ -2,8 +2,8 @@
 let chart; // Переменная для хранения объекта Chart
 
 // Данные о температуре и времени
-const temperatureData = [4, 5]; // Замените данными о температуре из вашего набора данных
-const timeLabels = [8.33, 9.45]; // Замените данными о времени из вашего набора данных
+const temperatureData = [4, 5, 1, 8]; // Замените данными о температуре из вашего набора данных
+const timeLabels = [1, 3, 6, 9]; // Замените данными о времени из вашего набора данных
 
 // Функция для отображения графика
 function drawChart(timeLabels, temperatureData) {
@@ -21,35 +21,35 @@ function drawChart(timeLabels, temperatureData) {
             }]
         },
         options: {
-    responsive: true,
-    maintainAspectRatio: true,
-    scales: {
-        xAxes: [{
-            type: 'linear', // Изменение типа оси на линейный
-            ticks: {
-                stepSize: 1, // Шаг оси в 1 час
-                min: 0, // Начальное значение оси X
-                max: 23, // Конечное значение оси X
-                callback: function(value, index, values) {
-                    return value + ":00"; // Форматирование меток оси X
-                }
-            },
-            scaleLabel: {
-                display: true,
-                labelString: 'Время (часы)'
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    ticks: {
+                        min: 0,
+                        max: 10,
+                        stepSize: 2,
+                        callback: function(value, index, values) {
+                            return value;
+                        }
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Время (часы)'
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Температура (°C)'
+                    }
+                }]
             }
-        }],
-        yAxes: [{
-            scaleLabel: {
-                display: true,
-                labelString: 'Температура (°C)'
-            }
-        }]
-    }
-}
-
+        }
     });
 }
+
 
 // Загружаем график при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
