@@ -1,6 +1,3 @@
-// Глобальные переменные
-let chart; // Переменная для хранения объекта Chart
-
 // Функция для загрузки данных и построения графика
 function fetchDataAndDrawChart() {
     // Определяем начало текущего дня
@@ -15,12 +12,11 @@ function fetchDataAndDrawChart() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-
-// Создаем массив данных температуры
-const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
+            // Создаем массив данных температуры
+            const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
             
-// Создаем массив данных времени
-const timeLabels = data.feeds.map(feed => new Date(feed.created_at)); // Получение массива объектов времени
+            // Создаем массив данных времени
+            const timeLabels = data.feeds.map(feed => new Date(feed.created_at));
 
             // Отображаем график с скорректированными данными
             drawChart(timeLabels, temperatureData);
@@ -45,34 +41,35 @@ function drawChart(timeLabels, temperatureData) {
             }]
         },
         options: {
-    responsive: true,
-    maintainAspectRatio: true,
-    scales: {
-        xAxes: [{
-            type: 'time',
-            time: {
-                unit: 'hour',
-                tooltipFormat: 'HH:mm',
-                displayFormats: {
-                    hour: 'HH:mm'
-                },
-                min: '00:00', // Установка начального времени на 00:00
-                max: '00:00', // Установка конечного времени на 00:00
-            },
-            ticks: {
-                stepSize: 1 // Шаг оси в 1 час
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'hour',
+                        tooltipFormat: 'HH:mm',
+                        displayFormats: {
+                            hour: 'HH:mm'
+                        },
+                        min: '00:00', // Установка начального времени на 00:00
+                        max: '00:00', // Установка конечного времени на 00:00
+                    },
+                    ticks: {
+                        stepSize: 1 // Шаг оси в 1 час
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Температура (°C)'
+                    }
+                }]
             }
-        }],
-        yAxes: [{
-            scaleLabel: {
-                display: true,
-                labelString: 'Температура (°C)'
-            }
-        }]
-    }
-}
+        }
     });
 }
+
 // Загружаем график за сутки при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     fetchDataAndDrawChart();
