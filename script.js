@@ -21,30 +21,33 @@ function drawChart(timeLabels, temperatureData) {
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    time: {
-                        unit: 'hour',
-                        tooltipFormat: 'HH:mm',
-                        displayFormats: {
-                            hour: 'HH:mm'
-                        }
-                    },
-                    ticks: {
-                        stepSize: 1 // Шаг оси в 1 час
-                    }
-                }],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Температура (°C)'
-                    }
-                }]
+    responsive: true,
+    maintainAspectRatio: true,
+    scales: {
+        xAxes: [{
+            type: 'linear', // Изменение типа оси на линейный
+            ticks: {
+                stepSize: 1, // Шаг оси в 1 час
+                min: 0, // Начальное значение оси X
+                max: 23, // Конечное значение оси X
+                callback: function(value, index, values) {
+                    return value + ":00"; // Форматирование меток оси X
+                }
+            },
+            scaleLabel: {
+                display: true,
+                labelString: 'Время (часы)'
             }
-        }
+        }],
+        yAxes: [{
+            scaleLabel: {
+                display: true,
+                labelString: 'Температура (°C)'
+            }
+        }]
+    }
+}
+
     });
 }
 
