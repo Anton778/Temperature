@@ -29,10 +29,7 @@ function drawChart(timeLabels, temperatureData) {
                     ticks: {
                         min: 0,
                         max: 10,
-                        stepSize: 2,
-                        callback: function(value, index, values) {
-                            return value;
-                        }
+                        stepSize: 2
                     },
                     scaleLabel: {
                         display: true,
@@ -49,7 +46,6 @@ function drawChart(timeLabels, temperatureData) {
         }
     });
 }
-
 
 // Загружаем график при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
