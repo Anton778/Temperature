@@ -22,13 +22,10 @@ function fetchDataAndDrawChart() {
                 timeLabels.push(time);
             }
 
-            // Создаем массив данных температуры
-            const temperatureData = [];
-            for (const time of timeLabels) {
-                // Поиск температуры для данного времени
-                const temperature = findTemperatureForTime(time, data.feeds);
-                temperatureData.push(temperature);
-            }
+// Создаем массив данных температуры
+const temperatureData = [];
+temperatureData.push(25); // Например, задаем температуру равной 25 градусам
+
 
             // Отображаем график с скорректированными данными
             drawChart(timeLabels, temperatureData);
