@@ -23,8 +23,8 @@ function fetchDataAndDrawChart() {
             }
 
 // Создаем массив данных температуры
-const temperatureData = [];
-temperatureData.push(25); // Например, задаем температуру равной 25 градусам
+const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
+
 
 
             // Отображаем график с скорректированными данными
