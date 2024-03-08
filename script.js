@@ -31,9 +31,7 @@ function drawChart(timeLabels, temperatureData) {
                         tooltipFormat: 'HH:mm',
                         displayFormats: {
                             hour: 'HH:mm'
-                        },
-                        min: '00:00', // Установка начального времени на 00:00
-                        max: '23:00', // Установка конечного времени на 23:00
+                        }
                     },
                     ticks: {
                         stepSize: 1 // Шаг оси в 1 час
