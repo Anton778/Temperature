@@ -60,7 +60,10 @@ function drawChart(timeLabels, temperatureData) {
                         tooltipFormat: 'HH:mm',
                         displayFormats: {
                             hour: 'HH:mm'
-                        }
+                        },
+                        // Задаем начальное и конечное время для оси
+                        min: timeLabels[0],
+                        max: timeLabels[timeLabels.length - 1]
                     }
                 }],
                 yAxes: [{
@@ -73,7 +76,6 @@ function drawChart(timeLabels, temperatureData) {
         }
     });
 }
-
 // Загружаем график за сутки при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     fetchDataAndDrawChart();
