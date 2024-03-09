@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,10 @@
 
             // Формируем массивы с данными
             var timestamps = feeds.map(function(feed) {
-                return feed.created_at;
+                // Преобразуем время к UTC+7
+                var utcTime = new Date(feed.created_at);
+                var localTime = new Date(utcTime.getTime() + (7 * 60 * 60 * 1000)); // Добавляем 7 часов в миллисекундах
+                return localTime.toLocaleString('ru-RU', { timeZone: 'Asia/Almaty' });
             });
 
             var temperatures = feeds.map(function(feed) {
@@ -44,7 +47,7 @@
         // Создаем объект с настройками графика
         var layout = {
             title: 'График температуры',
-            xaxis: { title: 'Время' },
+            xaxis: { title: 'Время', range: [0, 24], tickangle: 45, tickfont: { size: 10 }, automargin: true }, // Устанавливаем диапазон оси x от 0 до 24 часов и поворот подписей
             yaxis: { title: 'Температура (градусы Цельсия)' }
         };
 
@@ -52,7 +55,9 @@
         var trace = {
             x: data.timestamps,
             y: data.temperatures,
-            type: 'scatter'
+            type: 'scatter',
+            mode: 'lines+markers', // Добавляем отображение точек значений на линии
+            marker: { size: 8 } // Устанавливаем размер точек значений
         };
 
         // Рисуем график
