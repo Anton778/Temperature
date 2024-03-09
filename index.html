@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     display: true,
                                     text: 'Время (минуты)'
                                 },
-                                min: -400, // Set the minimum value for the x-axis ticks to 0
+                                min: -normalizedTimeLabels.unshift(0), // Set the minimum value for the x-axis ticks to 0
                                 ticks: {
                                     stepSize: 1 // изменение шага на 10 минут
                                 }
