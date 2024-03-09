@@ -34,15 +34,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
                 const timeLabels = data.feeds.map(feed => {
                     const date = new Date(feed.created_at);
-                    date.setHours(date.getHours());
-                    return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
+                    return date.getTime(); // Преобразование в миллисекунды
                 });
+
+                // Нормализация значений времени
+                const startTime = timeLabels[0];
+                const normalizedTimeLabels = timeLabels.map(time => (time - startTime) / (1000 * 60)); // перевод в минуты
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 chart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: timeLabels,
+                        labels: normalizedTimeLabels,
                         datasets: [{
                             label: 'Температура в городе Бердске',
                             data: temperatureData,
@@ -66,10 +69,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                 type: 'linear',
                                 title: {
                                     display: true,
-                                    text: 'Время (часы)'
+                                    text: 'Время (минуты)'
                                 },
                                 ticks: {
-                                    stepSize: 0.1
+                                    stepSize: 10 // изменение шага на 10 минут
                                 }
                             },
                             y: {
