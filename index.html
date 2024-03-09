@@ -39,11 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     return date.getTime(); // Преобразование в миллисекунды
                 });
 
-                const firstDataTime = timeLabels[0]; // Время получения первых данных
-                const startTime = firstDataTime; // Начальное время будет временем первых данных
+                const startTime = 0; // Начальное время будет равно 0 минутам
 
                 // Нормализация значений времени
-                const normalizedTimeLabels = timeLabels.map(time => (time - startTime) / (1000 * 60)); // перевод в минуты
+                const normalizedTimeLabels = timeLabels.map((time, index) => index * 10); // перевод в минуты
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 if (chart) {
