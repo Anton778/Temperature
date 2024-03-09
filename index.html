@@ -28,6 +28,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
     let chart;
+    let milliseconds; // Объявляем переменную в глобальной области видимости
 
     function fetchDataAndDrawChart(url) {
         fetch(url)
