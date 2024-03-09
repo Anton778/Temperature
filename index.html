@@ -22,13 +22,11 @@
 
 <div id="minMaxTemperatures" style="font-size: 18px; font-weight: bold;"></div>
 
-<button id="getDataForLastDay">За сутки</button> <!-- Добавляем кнопку "За сутки" -->
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
     let chart;
-    let endDate; // Объявляем переменные в глобальной области видимости
+    let endDate;
     let startDate;
     let milliseconds;
 
@@ -42,12 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     return date.getTime(); // Преобразование в миллисекунды
                 });
 
-                const startTime = 0; // Начальное время будет равно 0 минутам
-console.log("Текущее", time);
-
                 const normalizedTimeLabels = timeLabels.map(time => time - milliseconds);
-  console.log("Начало для", milliseconds);              
-console.log("Нормализованное", normalizedTimeLabels);
+
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 if (chart) {
                     chart.destroy(); // Уничтожаем предыдущий график перед отрисовкой нового
@@ -154,9 +148,7 @@ console.log("Нормализованное", normalizedTimeLabels);
         fetchDataAndDrawChart(urlForLastDay);
     }
 
-    fetchDataAndDrawChart(defaultUrl);
-
-    document.getElementById('getDataForLastDay').addEventListener('click', getDataForLastDay);
+    getDataForLastDay(); // Вызываем функцию для получения данных за последний день
 
 });
 </script>
