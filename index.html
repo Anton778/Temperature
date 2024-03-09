@@ -12,35 +12,35 @@
     <!-- Вставляем сгенерированный HTML-код графика -->
     <div id="graph">
         <script>
-            import requests
-            import matplotlib.pyplot as plt
-            import mpld3
+            // Функция для генерации графика
+            function generateTemperatureGraph() {
+                // Здесь можно выполнять запрос к серверу для получения данных о температуре
+                // В этом примере используем заглушку с рандомными данными
 
-            # Запрос данных с веб-сервера ThingSpeak
-            url = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A'
-            response = requests.get(url)
-            data = response.json()
+                // Генерация случайных данных
+                var temperatures = [];
+                var timestamps = [];
+                for (var i = 0; i < 10; i++) {
+                    temperatures.push(Math.random() * 30); // Пример случайных температур
+                    timestamps.push(new Date().toISOString()); // Пример временных меток
+                }
 
-            # Извлечение данных о температуре
-            temperatures = [float(entry['field1']) for entry in data['feeds']]
-
-            # Создание списка временных меток для оси x
-            timestamps = [entry['created_at'] for entry in data['feeds']]
-
-            # Создание графика
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.plot(timestamps, temperatures, marker='o', linestyle='-')
-            ax.set_title('График температуры по данным с ThingSpeak')
-            ax.set_xlabel('Время')
-            ax.set_ylabel('Температура (градусы Цельсия)')
-            ax.grid(True)
-            fig.autofmt_xdate()  # Автоматически форматируем даты на оси x
-
-            # Преобразуем график в HTML с помощью mpld3 и выводим его
-            html_graph = mpld3.fig_to_html(fig)
-            document.getElementById('graph').innerHTML = html_graph;
+                // Создание графика
+                var fig, ax;
+                fig = mpld3.create_figure("graph", function() {
+                    fig = plt.figure();
+                    ax = fig.add_subplot(111);
+                    ax.plot(timestamps, temperatures, 'o-', markersize=8);
+                    ax.set_title('График температуры');
+                    ax.set_xlabel('Время');
+                    ax.set_ylabel('Температура (градусы Цельсия)');
+                    ax.grid(true);
+                    fig.autofmt_xdate();
+                });
+            }
+            // Вызов функции для генерации графика
+            generateTemperatureGraph();
         </script>
     </div>
-    <!-- Возможно, здесь будут другие элементы страницы -->
 </body>
 </html>
