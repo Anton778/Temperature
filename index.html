@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 zeroDate.setHours(0, 0, 0, 0); // Установка времени на 00:00
 
                 // Нормализация значений времени относительно нулевой метки
-                const normalizedTimeLabels = timeLabels.map(time => (time - zeroDate.getTime()) / (1000 * 60)); // Перевод в минуты относительно нулевой метки
+                const normalizedTimeLabels = timeLabels.map(time => (time / (1000 * 60)); // Перевод в минуты относительно нулевой метки
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 chart = new Chart(ctx, {
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     text: 'Время (минуты)'
                                 },
                                 ticks: {
-                                    stepSize: 60, // Изменение шага на 10 минут
+                                    stepSize: 120, // Изменение шага на 10 минут
                                     min: 0, // Установка минимального значения на оси времени
                                     max: Math.max(...normalizedTimeLabels) // Установка максимального значения на оси времени
                                 }
