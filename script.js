@@ -1,10 +1,7 @@
-// Глобальные переменные
-        let chart; // Переменная для хранения объекта Chart
-
-        // Функция для отображения графика
+// Функция для отображения графика
         function drawChart(x, y) {
             const ctx = document.getElementById('temperatureChart').getContext('2d');
-            chart = new Chart(ctx, {
+            const chart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: x,
@@ -54,18 +51,16 @@
                 const response = await fetch(url); // Выполняем запрос к серверу
                 const data = await response.json(); // Получаем данные JSON
 
-                // Парсим данные и сохраняем x и y значения
-                const x = [];
-                const y = [];
-                data.feeds.forEach(feed => {
-                    x.push(feed.field1); // Предполагаем, что время находится в поле field1
-                    y.push(feed.field2); // Предполагаем, что температура находится в поле field2
+                // Создаем массивы temperatureData и timeLabels
+                const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
+                const timeLabels = data.feeds.map(feed => {
+                    const date = new Date(feed.created_at);
+                    date.setHours(date.getHours());
+                    return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
                 });
 
-                // Обновляем график с новыми данными
-                chart.data.labels = x;
-                chart.data.datasets[0].data = y;
-                chart.update();
+                // Отображаем график
+                drawChart(timeLabels, temperatureData);
 
             } catch (error) {
                 console.error('Ошибка при получении данных с сервера:', error);
@@ -74,6 +69,5 @@
 
         // Загружаем график при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
-            drawChart([], []); // Создаем пустой график
             updateChartWithServerData('https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A'); // Получаем данные с сервера и обновляем график
         });
