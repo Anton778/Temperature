@@ -18,6 +18,9 @@
         <button onclick="getData('all')">За всё время</button>
     </div>
 
+    <!-- Контейнер для отображения информации о температуре -->
+    <div id="temperature-info"></div>
+
     <!-- Скрипт для создания графика -->
     <script>
         // Функция для получения данных о температуре с сервера ThingSpeak
@@ -73,6 +76,27 @@
             };
 
             Plotly.newPlot('graph', [trace], layout);
+
+            // Вычисляем необходимые статистики о температуре
+            var currentTemperature = data.temperatures[data.temperatures.length - 1];
+            var maxTemperature = Math.max(...data.temperatures);
+            var minTemperature = Math.min(...data.temperatures);
+            var averageTemperature = data.temperatures.reduce((acc, val) => acc + val, 0) / data.temperatures.length;
+            var diurnalTemperatureRange = maxTemperature - minTemperature;
+
+            // Отображаем информацию о температуре под графиком
+            var temperatureInfo = document.getElementById('temperature-info');
+            temperatureInfo.innerHTML = `
+                <p>Текущая температура: ${currentTemperature} градусов Цельсия</p>
+                <p>Максимальная температура: ${maxTemperature} градусов Цельсия</p>
+                <p>Минимальная температура: ${minTemperature} градусов Цельсия</p>
+            `;
+            if (data.timestamps.length > 1) {
+                temperatureInfo.innerHTML += `
+                    <p>Среднесуточная температура: ${averageTemperature.toFixed(2)} градусов Цельсия</p>
+                    <p>Суточный ход температуры: ${diurnalTemperatureRange.toFixed(2)} градусов Цельсия</p>
+                `;
+            }
         }
 
         // Инициализация графика при загрузке страницы
