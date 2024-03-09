@@ -37,15 +37,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     return date.getTime(); // Преобразование в миллисекунды
                 });
 
-                // Нормализация значений времени
-                const startTime = timeLabels[0];
-                const normalizedTimeLabels = timeLabels.map(time => (time - startTime) / (1000 * 60)); // перевод в минуты
+                // Вычисляем общее количество дней в данных
+                const totalDays = Math.ceil(timeLabels[timeLabels.length - 1] / (1000 * 60 * 60 * 24));
+
+                // Создаем массив меток времени каждые 2 часа на протяжении всех дней
+                const timeLabelsEveryTwoHours = [];
+                for (let i = 0; i < totalDays; i++) {
+                    for (let j = 0; j < 24; j += 2) {
+                        timeLabelsEveryTwoHours.push(i * 24 + j);
+                    }
+                }
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 chart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: normalizedTimeLabels,
+                        labels: timeLabelsEveryTwoHours,
                         datasets: [{
                             label: 'Температура в городе Бердске',
                             data: temperatureData,
@@ -69,10 +76,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                 type: 'linear',
                                 title: {
                                     display: true,
-                                    text: 'Время (минуты)'
+                                    text: 'Время (часы)'
                                 },
                                 ticks: {
-                                    stepSize: 10 // изменение шага на 10 минут
+                                    stepSize: 24 // изменение шага на 24 часа
                                 }
                             },
                             y: {
