@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const startTime = 0; // Начальное время будет равно 0 минутам
 console.log("Исходное время", timeLabels);
                 // Нормализация значений времени
+                console.log("Начало дня в миллисекундах", milliseconds);
                 // Отнимаем значение millisecondsToSubtract от каждого элемента массива timeLabels
                  const normalizedTimeLabels = timeLabels.map(time => time - milliseconds);
 console.log("Нормализация значений времени", normalizedTimeLabels);
@@ -149,8 +150,7 @@ console.log("Нормализация значений времени", normaliz
         
         console.log("Начало дня", startDate);
         var milliseconds = startDate.getTime();  // Перевод в миллисекунды
-          console.log("Начало дня в миллисекундах", milliseconds);
-
+        
         const endDateString = endDate.toISOString().slice(0, 19); // Преобразование конечной даты в строку
         const startDateString = startDate.toISOString().slice(0, 19); // Преобразование начальной даты в строку
         const urlForLastDay = defaultUrl + `&start=${startDateString}&end=${endDateString}`; // Обновляем URL для запроса данных за последний день
