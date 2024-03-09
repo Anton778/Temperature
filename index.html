@@ -1,3 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Метео</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h1>Метео</h1>
+<h1>Температура</h1>
+<h2><em>Температура на улице в городе Бердске</em></h2>
+
+<canvas id="temperatureChart" width="800" height="400"></canvas>
+
+<div id="minMaxTemperatures" style="font-size: 18px; font-weight: bold;"></div>
+
+<button id="getDataForLastDay">За сутки</button> <!-- Добавляем кнопку "За сутки" -->
+
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
     let chart;
@@ -130,3 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('getDataForLastDay').addEventListener('click', getDataForLastDay);
 
 });
+</script>
+
+</body>
+</html>
