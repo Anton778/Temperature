@@ -40,10 +40,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Находим нулевую метку
                 zeroDate = new Date(timeLabels[0]); // Присваиваем значение переменной zeroDate
-console.log('Начальная дата измерений:', zeroDate);
+                zeroDate.setHours(0, 0, 0, 0); // Установка времени на 00:00
+
+                // Проверяем, если нулевая метка не равна нулю
+                if (zeroDate.getTime() !== 0) {
+                    // Вычисляем количество дополнительных делений в начале графика
+                    const stepSize = 120; // Здесь вы можете использовать ваш шаг
+                    const additionalTicks = Math.abs(zeroDate.getTime() / (1000 * 60)) / stepSize;
+                    for (let i = 1; i <= additionalTicks; i++) {
+                        timeLabels.unshift(i * (-stepSize));
+                        temperatureData.unshift(null);
+                    }
+                }
+
                 // Нормализация значений времени относительно нулевой метки
-                const normalizedTimeLabels = timeLabels.map(time => (time - zeroDate.getTime()) / (1000 * 60)); // Перевод в минуты относительно нулевой метки
-console.log('Нормализированные временные метки:', normalizedTimeLabels);
+                const normalizedTimeLabels = timeLabels.map(time => time / (1000 * 60)); // Перевод в минуты относительно нулевой метки
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 chart = new Chart(ctx, {
@@ -76,7 +87,7 @@ console.log('Нормализированные временные метки:',
                                     text: 'Время (минуты)'
                                 },
                                 ticks: {
-                                    stepSize: 1, // Изменение шага на 10 минут
+                                    stepSize: 120, // Здесь также используется ваш шаг
                                     min: 0, // Установка минимального значения на оси времени
                                     max: Math.max(...normalizedTimeLabels) // Установка максимального значения на оси времени
                                 }
@@ -90,7 +101,6 @@ console.log('Нормализированные временные метки:',
                         }
                     }
                 });
-
                 const maxTemperature = Math.max(...temperatureData);
                 const minTemperature = Math.min(...temperatureData);
                 const currentTemperature = temperatureData[temperatureData.length - 1];
