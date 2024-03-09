@@ -36,13 +36,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
                 const timeLabels = data.feeds.map(feed => {
                     const date = new Date(feed.created_at);
-                    return date.getTime(); // Преобразование в миллисекунды
+                    return date; // Используем объекты Date в качестве меток времени
                 });
 
-                const startTime = 0; // Начальное время будет равно 0 минутам
+                const startTime = new Date(timeLabels[0].setHours(0, 0, 0, 0)); // Начальное время будет 00:00 текущего дня
+                const endTime = new Date(startTime);
+                endTime.setDate(startTime.getDate() + 1); // Завершающее время будет 00:00 следующего дня
 
-                // Нормализация значений времени
-                const normalizedTimeLabels = timeLabels.map((time, index) => index * 10); // перевод в минуты
+                const labels = getTimeLabels(startTime, endTime); // Получаем метки времени для оси X
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 if (chart) {
@@ -51,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 chart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: normalizedTimeLabels,
+                        labels: labels,
                         datasets: [{
                             label: 'Температура в городе Бердске',
                             data: temperatureData,
@@ -72,13 +73,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         },
                         scales: {
                             x: {
-                                type: 'linear',
+                                type: 'time', // Используем временной тип для оси X
+                                time: {
+                                    unit: 'hour', // Отображаем метки времени каждый час
+                                    stepSize: 1, // Шаг между метками времени
+                                    displayFormats: {
+                                        hour: 'HH:mm' // Формат отображения времени (час:минута)
+                                    }
+                                },
                                 title: {
                                     display: true,
-                                    text: 'Время (минуты)'
-                                },
-                                ticks: {
-                                    stepSize: 120 // изменение шага на 10 минут
+                                    text: 'Время'
                                 }
                             },
                             y: {
@@ -131,6 +136,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         return timestamp.toLocaleString('ru-RU');
                     }
                     return 'неизвестно';
+                }
+
+                function getTimeLabels(startTime, endTime) { // Функция для создания меток времени
+                    const labels = [];
+                    let currentTime = new Date(startTime);
+                    while (currentTime <= endTime) {
+                        labels.push(new Date(currentTime));
+                        currentTime.setHours(currentTime.getHours() + 1); // Добавляем час
+                    }
+                    return labels;
                 }
             })
             .catch(error => console.error('Ошибка при получении данных:', error));
