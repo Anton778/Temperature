@@ -43,9 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 const startTime = 0; // Начальное время будет равно 0 минутам
+console.log("Текущее", time);
 
                 const normalizedTimeLabels = timeLabels.map(time => time - milliseconds);
-
+  console.log("Начало для", milliseconds);              
+console.log("Нормализованное", normalizedTimeLabels);
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 if (chart) {
                     chart.destroy(); // Уничтожаем предыдущий график перед отрисовкой нового
