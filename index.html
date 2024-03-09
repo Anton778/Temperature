@@ -22,6 +22,8 @@
 
 <div id="minMaxTemperatures" style="font-size: 18px; font-weight: bold;"></div>
 
+<div id="output"></div> <!-- Этот элемент будет использован для вывода массива температур и времен -->
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
@@ -41,6 +43,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 const normalizedTimeLabels = timeLabels.map(time => (time - milliseconds) / (1000*60*60));
+
+                const temperatureOutput = document.getElementById('output');
+                temperatureOutput.innerHTML = '<h3>Массив температур:</h3><ul>';
+                temperatureData.forEach(temp => {
+                    temperatureOutput.innerHTML += `<li>${temp} °C</li>`;
+                });
+                temperatureOutput.innerHTML += '</ul>';
+
+                const timeOutput = document.getElementById('output');
+                timeOutput.innerHTML += '<h3>Массив времен:</h3><ul>';
+                timeLabels.forEach(time => {
+                    const timestamp = new Date(time).toLocaleString('ru-RU');
+                    timeOutput.innerHTML += `<li>${timestamp}</li>`;
+                });
+                timeOutput.innerHTML += '</ul>';
+
+                const startDateOutput = document.getElementById('output');
+                const startOfDay = new Date(milliseconds);
+                startDateOutput.innerHTML += `<h3>Начало текущего дня:</h3><p>${startOfDay.toLocaleString('ru-RU')}</p>`;
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 if (chart) {
@@ -152,6 +173,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 </script>
-
 </body>
 </html>
