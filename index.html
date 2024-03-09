@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>Текущая температура: ${currentTemperature}°C</p>
                     <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
                     <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
-                    ${url.includes('days=1') ? `<p>Суточный ход температуры воздуха: ${dailyTemperatureRange.toFixed(2)}°C </p>` : ''}
+                    ${url.includes('start=') ? `<p>Суточный ход температуры воздуха: ${dailyTemperatureRange.toFixed(2)}°C </p>` : ''}
                     <p>Средняя температура воздуха: ${averageTemperature.toFixed(2)}°C</p>
                 `;
 
@@ -137,9 +137,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getDataForLastDay() { // Функция для выполнения запроса за последний день
         const endDate = new Date(); // Текущая дата и время
-        const startDate = new Date(endDate.getTime() - (24 * 60 * 60 * 1000)); // Определение начальной даты (за последние 24 часа)
-        const startDateString = startDate.toISOString().slice(0, 10) + ' 00:00:00'; // Преобразование начальной даты в строку
-        const endDateString = endDate.toISOString().slice(0, 10) + ' 23:59:59'; // Преобразование конечной даты в строку
+        const startDate = new Date(endDate); // Копируем текущую дату и время
+        startDate.setHours(0, 0, 0, 0); // Устанавливаем начало дня (00:00)
+        const endDateString = endDate.toISOString().slice(0, 19); // Преобразование конечной даты в строку
+        const startDateString = startDate.toISOString().slice(0, 19); // Преобразование начальной даты в строку
         const urlForLastDay = defaultUrl + `&start=${startDateString}&end=${endDateString}`; // Обновляем URL для запроса данных за последний день
         fetchDataAndDrawChart(urlForLastDay); // Выполняем запрос и рисуем график
     }
