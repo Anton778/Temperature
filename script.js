@@ -54,10 +54,16 @@
                 // Создаем массивы temperatureData и timeLabels
                 const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
                 const timeLabels = data.feeds.map(feed => {
-                    const date = new Date(feed.created_at);
-                    date.setHours(date.getHours());
-                    return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
-                });
+    const date = new Date(feed.created_at);
+    // Форматируем дату в часы и минуты
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    // Форматируем дату в день и месяц
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    // Собираем строку времени в формате "день.месяц час:минуты"
+    return `${day}.${month} ${hours}:${minutes}`;
+     });
 
                 // Отображаем график
                 drawChart(timeLabels, temperatureData);
