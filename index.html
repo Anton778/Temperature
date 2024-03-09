@@ -30,7 +30,7 @@
             var timestamps = feeds.map(function(feed) {
                 // Преобразуем время к UTC+7
                 var utcTime = new Date(feed.created_at);
-                var localTime = new Date(utcTime.getTime() + (7 * 60 * 60 * 1000)); // Добавляем 7 часов в миллисекундах
+                var localTime = new Date(utcTime.getTime() + (0 * 60 * 60 * 1000)); // Добавляем 7 часов в миллисекундах
                 return localTime.toLocaleString('ru-RU', { timeZone: 'Asia/Almaty' });
             });
 
