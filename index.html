@@ -40,9 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Находим нулевую метку
                 zeroDate = new Date(timeLabels[0]); // Присваиваем значение переменной zeroDate
-                zeroDate.setHours(0, 0, 0, 0); // Установка времени на 00:00
 console.log('Начальная дата измерений:', zeroDate);
-
                 // Нормализация значений времени относительно нулевой метки
                 const normalizedTimeLabels = timeLabels.map(time => (time - zeroDate.getTime()) / (1000 * 60)); // Перевод в минуты относительно нулевой метки
 console.log('Нормализированные временные метки:', normalizedTimeLabels);
