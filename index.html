@@ -42,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const startTime = 0; // Начальное время будет равно 0 минутам
 console.log("Исходное время", timeLabels);
                 // Нормализация значений времени
-                const normalizedTimeLabels = timeLabels.map((time, index) => index * 10); // перевод в минуты
+                // Отнимаем значение millisecondsToSubtract от каждого элемента массива timeLabels
+                 const normalizedTimeLabels = timeLabels.map(time => time - milliseconds);
 console.log("Нормализация значений времени", normalizedTimeLabels);
 
                 
