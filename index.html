@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,16 +14,31 @@
 
     <!-- Скрипт для создания графика -->
     <script>
-        // Функция для получения данных о температуре (можно заменить на ваш запрос к серверу)
+        // Функция для получения данных о температуре с сервера ThingSpeak
         function getTemperatureData() {
-            // Пример данных: временные метки и температуры
-            var timestamps = ['2024-03-01', '2024-03-02', '2024-03-03', '2024-03-04', '2024-03-05'];
-            var temperatures = [20, 22, 21, 25, 23];
+            // Выполняем GET-запрос к серверу ThingSpeak
+            var xhr = new XMLHttpRequest();
+            var url = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
+            xhr.open('GET', url, false);
+            xhr.send();
+
+            // Парсим ответ сервера
+            var response = JSON.parse(xhr.responseText);
+            var feeds = response.feeds;
+
+            // Формируем массивы с данными
+            var timestamps = feeds.map(function(feed) {
+                return feed.created_at;
+            });
+
+            var temperatures = feeds.map(function(feed) {
+                return parseFloat(feed.field1);
+            });
 
             return { timestamps: timestamps, temperatures: temperatures };
         }
 
-        // Получаем данные о температуре
+        // Получаем данные о температуре с сервера ThingSpeak
         var data = getTemperatureData();
 
         // Создаем объект с настройками графика
