@@ -26,6 +26,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
     let chart;
+    let zeroDate; // Объявляем переменную zeroDate
 
     function fetchDataAndDrawChart(url) {
         fetch(url)
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 // Находим нулевую метку
-                const zeroDate = new Date(timeLabels[0]);
+                zeroDate = new Date(timeLabels[0]); // Присваиваем значение переменной zeroDate
                 zeroDate.setHours(0, 0, 0, 0); // Установка времени на 00:00
 
                 // Нормализация значений времени относительно нулевой метки
@@ -131,6 +132,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     return 'неизвестно';
                 }
+
+                // Форматирование даты нулевой метки для вывода
+                const zeroDateFormatted = zeroDate.toLocaleDateString('ru-RU', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                // Вывод даты нулевой метки под графиком
+                document.getElementById('zeroDate').innerText = `Дата начала измерений: ${zeroDateFormatted}`;
             })
             .catch(error => console.error('Ошибка при получении данных:', error));
     }
@@ -138,16 +149,9 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchDataAndDrawChart(defaultUrl);
 
 });
-    // Форматирование даты нулевой метки для вывода
-const zeroDateFormatted = zeroDate.toLocaleDateString('ru-RU', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-});
-
-// Вывод даты нулевой метки под графиком
-document.getElementById('zeroDate').innerText = `Дата начала измерений: ${zeroDateFormatted}`;
 </script>
+
+<div id="zeroDate" style="font-size: 18px;"></div>
 
 </body>
 </html>
