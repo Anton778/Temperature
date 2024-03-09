@@ -42,9 +42,11 @@
             if (range === 'day') {
                 var today = new Date();
                 today.setHours(0, 0, 0, 0);
+                var tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
                 feeds.forEach(function(feed) {
                     var timestamp = new Date(feed.created_at);
-                    if (timestamp >= today) {
+                    if (timestamp >= today && timestamp < tomorrow) {
                         data.timestamps.push(feed.created_at);
                         data.temperatures.push(parseFloat(feed.field1));
                     }
