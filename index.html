@@ -22,6 +22,8 @@
 
 <div id="minMaxTemperatures" style="font-size: 18px; font-weight: bold;"></div>
 
+<button id="getDataForLastDay">За сутки</button> <!-- Добавляем кнопку "За сутки" -->
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
@@ -42,6 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const normalizedTimeLabels = timeLabels.map(time => (time - startTime) / (1000 * 60)); // перевод в минуты
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
+                if (chart) {
+                    chart.destroy(); // Уничтожаем предыдущий график перед отрисовкой нового
+                }
                 chart = new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -71,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                     display: true,
                                     text: 'Время (минуты)'
                                 },
-                                min: -normalizedTimeLabels.unshift(0), // Set the minimum value for the x-axis ticks to 0
                                 ticks: {
                                     stepSize: 120 // изменение шага на 10 минут
                                 }
@@ -131,7 +135,14 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Ошибка при получении данных:', error));
     }
 
-    fetchDataAndDrawChart(defaultUrl);
+    function getDataForLastDay() { // Функция для выполнения запроса за последний день
+        const urlForLastDay = defaultUrl + '&days=1'; // Обновляем URL для запроса данных за последний день
+        fetchDataAndDrawChart(urlForLastDay); // Выполняем запрос и рисуем график
+    }
+
+    fetchDataAndDrawChart(defaultUrl); // Изначально загружаем данные
+
+    document.getElementById('getDataForLastDay').addEventListener('click', getDataForLastDay); // Добавляем обработчик события для кнопки "За сутки"
 
 });
 </script>
