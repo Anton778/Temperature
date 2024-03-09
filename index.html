@@ -139,6 +139,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 </script>
+// Форматирование даты нулевой метки для вывода
+const zeroDateFormatted = zeroDate.toLocaleDateString('ru-RU', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+});
 
+// Вывод даты нулевой метки под графиком
+document.getElementById('zeroDate').innerText = `Дата начала измерений: ${zeroDateFormatted}`;
 </body>
 </html>
