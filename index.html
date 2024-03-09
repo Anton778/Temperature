@@ -28,11 +28,16 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(url)
             .then(response => response.json())
             .then(data => {
+                console.log(data); // Отладочное сообщение для проверки данных
+
                 const x = data.feeds.map(feed => {
                     const date = new Date(feed.created_at);
                     return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
                 });
                 const y = data.feeds.map(feed => parseFloat(feed.field1));
+
+                console.log(x); // Отладочное сообщение для проверки массива меток x
+                console.log(y); // Отладочное сообщение для проверки массива данных y
 
                 // Удаляем старый график перед построением нового
                 if (window.chart) {
