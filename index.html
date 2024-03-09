@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     text: 'Время (минуты)'
                                 },
                                 ticks: {
-                                    stepSize: 10, // Изменение шага на 10 минут
+                                    stepSize: 60, // Изменение шага на 10 минут
                                     min: 0, // Установка минимального значения на оси времени
                                     max: Math.max(...normalizedTimeLabels) // Установка максимального значения на оси времени
                                 }
@@ -138,8 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchDataAndDrawChart(defaultUrl);
 
 });
-</script>
-// Форматирование даты нулевой метки для вывода
+    // Форматирование даты нулевой метки для вывода
 const zeroDateFormatted = zeroDate.toLocaleDateString('ru-RU', {
     year: 'numeric',
     month: 'long',
@@ -148,5 +147,7 @@ const zeroDateFormatted = zeroDate.toLocaleDateString('ru-RU', {
 
 // Вывод даты нулевой метки под графиком
 document.getElementById('zeroDate').innerText = `Дата начала измерений: ${zeroDateFormatted}`;
+</script>
+
 </body>
 </html>
