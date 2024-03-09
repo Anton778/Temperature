@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,34 +26,25 @@
             var response = JSON.parse(xhr.responseText);
             var feeds = response.feeds;
 
-            // Получаем дату первой точки данных
-            var firstDate = new Date(feeds[0].created_at);
-
             // Формируем массивы с данными
             var timestamps = feeds.map(function(feed) {
-                // Преобразуем время к UTC+7
-                var utcTime = new Date(feed.created_at);
-                var localTime = new Date(utcTime.getTime() + (7 * 60 * 60 * 1000)); // Добавляем 7 часов в миллисекундах
-                return localTime.toLocaleString('ru-RU', { timeZone: 'Asia/Almaty' });
+                return feed.created_at;
             });
 
             var temperatures = feeds.map(function(feed) {
                 return parseFloat(feed.field1);
             });
 
-            return { timestamps: timestamps, temperatures: temperatures, firstDate: firstDate };
+            return { timestamps: timestamps, temperatures: temperatures };
         }
 
         // Получаем данные о температуре с сервера ThingSpeak
         var data = getTemperatureData();
 
-        // Получаем текущую дату
-        var currentDate = new Date();
-
         // Создаем объект с настройками графика
         var layout = {
             title: 'График температуры',
-            xaxis: { title: 'Время', range: [data.firstDate, currentDate], tickangle: 45, tickfont: { size: 10 }, automargin: true }, // Устанавливаем диапазон оси x от первой даты до текущей даты
+            xaxis: { title: 'Время' },
             yaxis: { title: 'Температура (градусы Цельсия)' }
         };
 
@@ -62,8 +53,7 @@
             x: data.timestamps,
             y: data.temperatures,
             type: 'scatter',
-            mode: 'lines+markers', // Добавляем отображение точек значений на линии
-            marker: { size: 8 } // Устанавливаем размер точек значений
+            mode: 'markers' // Добавляем режим маркеров
         };
 
         // Рисуем график
