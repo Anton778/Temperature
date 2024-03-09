@@ -3,43 +3,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>График температуры</title>
-    <!-- Подключаем библиотеку mpld3 для отображения графика -->
-    <script src="https://cdn.jsdelivr.net/npm/mpld3@0.5.5/dist/mpld3.min.js"></script>
+    <!-- Подключаем библиотеку Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
     <h1>График температуры</h1>
-    <!-- Вставляем сгенерированный HTML-код графика -->
-    <div id="graph">
-        <script>
-            // Функция для генерации графика
-            function generateTemperatureGraph() {
-                // Здесь можно выполнять запрос к серверу для получения данных о температуре
-                // В этом примере используем заглушку с рандомными данными
+    <!-- Создаем контейнер для графика -->
+    <div id="graph"></div>
 
-                // Генерация случайных данных
-                var temperatures = [];
-                var timestamps = [];
-                for (var i = 0; i < 10; i++) {
-                    temperatures.push(Math.random() * 30); // Пример случайных температур
-                    timestamps.push(new Date().toISOString()); // Пример временных меток
-                }
+    <!-- Скрипт для создания графика -->
+    <script>
+        // Функция для получения данных о температуре (можно заменить на ваш запрос к серверу)
+        function getTemperatureData() {
+            // Пример данных: временные метки и температуры
+            var timestamps = ['2024-03-01', '2024-03-02', '2024-03-03', '2024-03-04', '2024-03-05'];
+            var temperatures = [20, 22, 21, 25, 23];
 
-                // Создание графика
-                var fig, ax;
-                fig = mpld3.create_figure("graph", function() {
-                    fig = plt.figure();
-                    ax = fig.add_subplot(111);
-                    ax.plot(timestamps, temperatures, 'o-', markersize=8);
-                    ax.set_title('График температуры');
-                    ax.set_xlabel('Время');
-                    ax.set_ylabel('Температура (градусы Цельсия)');
-                    ax.grid(true);
-                    fig.autofmt_xdate();
-                });
-            }
-            // Вызов функции для генерации графика
-            generateTemperatureGraph();
-        </script>
-    </div>
+            return { timestamps: timestamps, temperatures: temperatures };
+        }
+
+        // Получаем данные о температуре
+        var data = getTemperatureData();
+
+        // Создаем объект с настройками графика
+        var layout = {
+            title: 'График температуры',
+            xaxis: { title: 'Время' },
+            yaxis: { title: 'Температура (градусы Цельсия)' }
+        };
+
+        // Создаем объект с данными для графика
+        var trace = {
+            x: data.timestamps,
+            y: data.temperatures,
+            type: 'scatter'
+        };
+
+        // Рисуем график
+        Plotly.newPlot('graph', [trace], layout);
+    </script>
 </body>
 </html>
