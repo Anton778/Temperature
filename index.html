@@ -45,6 +45,7 @@ console.log('Начальная дата измерений:', zeroDate);
 
                 // Нормализация значений времени относительно нулевой метки
                 const normalizedTimeLabels = timeLabels.map(time => (time - zeroDate.getTime()) / (1000 * 60)); // Перевод в минуты относительно нулевой метки
+console.log('Нормализированные временные метки:', normalizedTimeLabels);
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 chart = new Chart(ctx, {
