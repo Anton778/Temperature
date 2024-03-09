@@ -13,6 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+
 <h1>Метео</h1>
 <h1>Температура</h1>
 <h2><em>Температура на улице в городе Бердске</em></h2>
@@ -25,12 +26,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
     let chart;
+
     function fetchDataAndDrawChart(url) {
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
-                const timeLabels = data.feeds.map(feed => new Date(feed.created_at));
                 const timeLabels = data.feeds.map(feed => {
                     const date = new Date(feed.created_at);
                     return date.getTime(); // Преобразование в миллисекунды
@@ -44,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 chart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: timeLabels,
                         labels: normalizedTimeLabels,
                         datasets: [{
                             label: 'Температура в городе Бердске',
@@ -66,17 +66,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         },
                         scales: {
                             x: {
-                                type: 'time',
-                                time: {
-                                    unit: 'hour',
-                                    displayFormats: {
-                                        hour: 'HH:mm'
-                                    }
-                                },
                                 type: 'linear',
                                 title: {
                                     display: true,
-                                    text: 'Время'
                                     text: 'Время (минуты)'
                                 },
                                 ticks: {
@@ -137,8 +129,11 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => console.error('Ошибка при получении данных:', error));
     }
+
     fetchDataAndDrawChart(defaultUrl);
+
 });
 </script>
+
 </body>
 </html>
