@@ -52,77 +52,35 @@ document.addEventListener('DOMContentLoaded', function() {
                         }]
                     },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        },
                         scales: {
-                            xAxes: [{
-                                type: 'time',
-                                time: {
-                                    unit: 'minute',
-                                    stepSize: 100,
-                                    tooltipFormat: 'HH:mm, DD.MM.YYYY',
-                                    displayFormats: {
-                                        hour: 'HH',
-                                        day: 'DD.MM'
-                                    }
+                            x: {
+                                type: 'linear',
+                                title: {
+                                    display: true,
+                                    text: 'Время (часы)'
                                 },
                                 ticks: {
-                                    maxRotation: 0,
-                                    autoSkip: false,
-                                    maxTicksLimit: 10
+                                    stepSize: 5
                                 }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
+                            },
+                            y: {
+                                title: {
                                     display: true,
-                                    labelString: 'Температура (°C)'
+                                    text: 'Температура (°C)'
                                 }
-                            }]
+                            }
                         }
                     }
                 });
-
-                const maxTemperature = Math.max(...temperatureData);
-                const minTemperature = Math.min(...temperatureData);
-                const currentTemperature = temperatureData[temperatureData.length - 1];
-                const dailyTemperatureRange = maxTemperature - minTemperature;
-                const averageTemperature = temperatureData.reduce((sum, temp) => sum + temp, 0) / temperatureData.length;
-
-                function highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature) {
-                    const dataset = chart.data.datasets[0];
-                    const data = dataset.data;
-                    const backgroundColors = Array(data.length).fill('lightblue');
-                    const maxTemperatureIndex = data.findIndex(temp => temp === maxTemperature);
-                    const minTemperatureIndex = data.findIndex(temp => temp === minTemperature);
-                    if (maxTemperatureIndex !== -1) {
-                        backgroundColors[maxTemperatureIndex] = 'red';
-                    }
-                    if (minTemperatureIndex !== -1) {
-                        backgroundColors[minTemperatureIndex] = 'blue';
-                    }
-                    dataset.backgroundColor = backgroundColors;
-                    chart.update();
-                }
-
-                highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature);
-
-                const minMaxTemperaturesElement = document.getElementById('minMaxTemperatures');
-                minMaxTemperaturesElement.innerHTML = `
-                    <p>Текущая температура: ${currentTemperature}°C</p>
-                    <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
-                    <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
-                    ${url.includes('days=1') ? `<p>Суточный ход температуры воздуха: ${dailyTemperatureRange.toFixed(2)}°C </p>` : ''}
-                    <p>Средняя температура воздуха: ${averageTemperature.toFixed(2)}°C</p>
-                `;
-
-                function getTimestampOfTemperature(temperature, data) {
-                    const index = data.feeds.findIndex(feed => parseFloat(feed.field1) === temperature);
-                    if (index !== -1) {
-                        const timestamp = new Date(data.feeds[index].created_at);
-                        return timestamp.toLocaleString('ru-RU');
-                    }
-                    return 'неизвестно';
-                }
             })
             .catch(error => console.error('Ошибка при получении данных:', error));
     }
