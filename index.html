@@ -136,7 +136,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function getDataForLastDay() { // Функция для выполнения запроса за последний день
-        const urlForLastDay = defaultUrl + '&days=1'; // Обновляем URL для запроса данных за последний день
+        const endDate = new Date(); // Текущая дата и время
+        const startDate = new Date(endDate.getTime() - (24 * 60 * 60 * 1000)); // Определение начальной даты (за последние 24 часа)
+        const startDateString = startDate.toISOString().slice(0, 10) + ' 00:00:00'; // Преобразование начальной даты в строку
+        const endDateString = endDate.toISOString().slice(0, 10) + ' 23:59:59'; // Преобразование конечной даты в строку
+        const urlForLastDay = defaultUrl + `&start=${startDateString}&end=${endDateString}`; // Обновляем URL для запроса данных за последний день
         fetchDataAndDrawChart(urlForLastDay); // Выполняем запрос и рисуем график
     }
 
