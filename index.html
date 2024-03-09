@@ -11,7 +11,6 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-     <script src="script.js"></script>
 </head>
 <body>
 
@@ -19,16 +18,87 @@
 <h1>Температура</h1>
 <h2><em>Температура на улице в городе Бердске</em></h2>
 
-
 <canvas id="temperatureChart" width="800" height="400"></canvas>
 <div id="minMaxTemperatures" style="font-size: 18px; font-weight: bold;"></div>
-<!--
-    <div>
-    <button id="btnDay">За день</button>
-    <button id="btnAllTime">За все время</button>
-</div>    
-    -->
-  Вер. 0
-  
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Функция для загрузки данных и построения графика
+    function fetchDataAndDrawChart(url) {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const x = data.feeds.map(feed => {
+                    const date = new Date(feed.created_at);
+                    return date.toLocaleString('ru-RU', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric' });
+                });
+                const y = data.feeds.map(feed => parseFloat(feed.field1));
+
+                // Удаляем старый график перед построением нового
+                if (window.chart) {
+                    window.chart.destroy();
+                }
+
+                const ctx = document.getElementById('temperatureChart').getContext('2d');
+                window.chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: x,
+                        datasets: [{
+                            label: 'Температура в городе Бердске',
+                            data: y,
+                            borderColor: 'black',
+                            backgroundColor: 'lightblue',
+                            fill: false,
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        },
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                title: {
+                                    display: true,
+                                    text: 'Время (часы)'
+                                },
+                                ticks: {
+                                    stepSize: 5
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Температура (°C)'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Отображаем информацию о минимальной и максимальной температуре
+                const maxTemperature = Math.max(...y);
+                const minTemperature = Math.min(...y);
+                const minMaxTemperaturesElement = document.getElementById('minMaxTemperatures');
+                minMaxTemperaturesElement.innerHTML = `
+                    <p>Максимальная температура: ${maxTemperature}°C</p>
+                    <p>Минимальная температура: ${minTemperature}°C</p>
+                `;
+            })
+            .catch(error => console.error('Ошибка при получении данных:', error));
+    }
+
+    // Загружаем график при загрузке страницы
+    fetchDataAndDrawChart('https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A');
+});
+</script>
+
 </body>
 </html>
