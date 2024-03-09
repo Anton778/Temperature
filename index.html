@@ -22,7 +22,11 @@
 
 <div id="minMaxTemperatures" style="font-size: 18px; font-weight: bold;"></div>
 
-<div id="output"></div> <!-- Этот элемент будет использован для вывода массива температур и времен -->
+<div id="temperatureOutput"></div> <!-- Этот элемент будет использован для вывода массива температур -->
+<div id="timeOutput"></div> <!-- Этот элемент будет использован для вывода массива времен -->
+<div id="startOfDayOutput"></div> <!-- Этот элемент будет использован для вывода начала текущего дня -->
+<div id="endOfDayOutput"></div> <!-- Этот элемент будет использован для вывода конца текущего дня -->
+<div id="hourlyOutput"></div> <!-- Этот элемент будет использован для вывода массива времен по часам -->
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -31,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let endDate;
     let startDate;
     let milliseconds;
+    let endOfDayMilliseconds;
 
     function fetchDataAndDrawChart(url) {
         fetch(url)
@@ -44,14 +49,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const normalizedTimeLabels = timeLabels.map(time => (time - milliseconds) / (1000*60*60));
 
-                const temperatureOutput = document.getElementById('output');
+                const temperatureOutput = document.getElementById('temperatureOutput');
                 temperatureOutput.innerHTML = '<h3>Массив температур:</h3><ul>';
                 temperatureData.forEach(temp => {
                     temperatureOutput.innerHTML += `<li>${temp} °C</li>`;
                 });
                 temperatureOutput.innerHTML += '</ul>';
 
-                const timeOutput = document.getElementById('output');
+                const timeOutput = document.getElementById('timeOutput');
                 timeOutput.innerHTML += '<h3>Массив времен:</h3><ul>';
                 timeLabels.forEach(time => {
                     const timestamp = new Date(time).toLocaleString('ru-RU');
@@ -59,9 +64,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 timeOutput.innerHTML += '</ul>';
 
-                const startDateOutput = document.getElementById('output');
+                const startOfDayOutput = document.getElementById('startOfDayOutput');
                 const startOfDay = new Date(milliseconds);
-                startDateOutput.innerHTML += `<h3>Начало текущего дня:</h3><p>${startOfDay.toLocaleString('ru-RU')}</p>`;
+                startOfDayOutput.innerHTML += `<h3>Начало текущего дня:</h3><p>${startOfDay.toLocaleString('ru-RU')}</p>`;
+
+                const endOfDayOutput = document.getElementById('endOfDayOutput');
+                const endOfDay = new Date(endOfDayMilliseconds);
+                endOfDayOutput.innerHTML += `<h3>Конец текущего дня:</h3><p>${endOfDay.toLocaleString('ru-RU')}</p>`;
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 if (chart) {
@@ -163,10 +172,27 @@ document.addEventListener('DOMContentLoaded', function() {
         startDate.setHours(0, 0, 0, 0); // Устанавливаем начало дня (00:00)
         milliseconds = startDate.getTime(); // Переводим в миллисекунды
 
+        endOfDayMilliseconds = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59, 999).getTime(); // Конец текущего дня
+
         const endDateString = endDate.toISOString().slice(0, 19);
         const startDateString = startDate.toISOString().slice(0, 19);
         const urlForLastDay = defaultUrl + `&start=${startDateString}&end=${endDateString}`;
         fetchDataAndDrawChart(urlForLastDay);
+
+        const hourlyTimeLabels = [];
+        const hourlyMilliseconds = milliseconds;
+        for (let i = 0; i < 24; i++) {
+            hourlyTimeLabels.push(hourlyMilliseconds + i * (1000*60*60));
+        }
+
+        // Вывод массива hourlyTimeLabels на экран
+        const hourlyOutput = document.getElementById('hourlyOutput');
+        hourlyOutput.innerHTML += '<h3>Массив времен по часам:</h3><ul>';
+        hourlyTimeLabels.forEach(time => {
+            const timestamp = new Date(time).toLocaleString('ru-RU');
+            hourlyOutput.innerHTML += `<li>${timestamp}</li>`;
+        });
+        hourlyOutput.innerHTML += '</ul>';
     }
 
     getDataForLastDay(); // Вызываем функцию для получения данных за последний день
