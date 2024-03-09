@@ -75,7 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                     text: 'Время (минуты)'
                                 },
                                 ticks: {
-                                    stepSize: 10 // Изменение шага на 10 минут
+                                    stepSize: 60, // Изменение шага на 10 минут
+                                    min: 0, // Минимальное значение на оси времени
+                                    max: Math.max(...normalizedTimeLabels) // Максимальное значение на оси времени
                                 }
                             },
                             y: {
