@@ -12,52 +12,77 @@
     <!-- Создаем контейнер для графика -->
     <div id="graph"></div>
 
+    <!-- Кнопки выбора временного диапазона -->
+    <div>
+        <button onclick="getData('day')">За сутки</button>
+        <button onclick="getData('all')">За всё время</button>
+    </div>
+
     <!-- Скрипт для создания графика -->
     <script>
         // Функция для получения данных о температуре с сервера ThingSpeak
-        function getTemperatureData() {
-            // Выполняем GET-запрос к серверу ThingSpeak
+        function getTemperatureData(range) {
             var xhr = new XMLHttpRequest();
             var url = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
             xhr.open('GET', url, false);
             xhr.send();
 
-            // Парсим ответ сервера
             var response = JSON.parse(xhr.responseText);
             var feeds = response.feeds;
 
-            // Формируем массивы с данными
-            var timestamps = feeds.map(function(feed) {
-                return feed.created_at;
-            });
+            // Отбираем данные за сутки или за все время
+            var data = {
+                timestamps: [],
+                temperatures: []
+            };
 
-            var temperatures = feeds.map(function(feed) {
-                return parseFloat(feed.field1);
-            });
+            if (range === 'day') {
+                var today = new Date();
+                today.setHours(0, 0, 0, 0);
+                feeds.forEach(function(feed) {
+                    var timestamp = new Date(feed.created_at);
+                    if (timestamp >= today) {
+                        data.timestamps.push(feed.created_at);
+                        data.temperatures.push(parseFloat(feed.field1));
+                    }
+                });
+            } else {
+                feeds.forEach(function(feed) {
+                    data.timestamps.push(feed.created_at);
+                    data.temperatures.push(parseFloat(feed.field1));
+                });
+            }
 
-            return { timestamps: timestamps, temperatures: temperatures };
+            return data;
         }
 
-        // Получаем данные о температуре с сервера ThingSpeak
-        var data = getTemperatureData();
-
-        // Создаем объект с настройками графика
+        // Инициализация графика
         var layout = {
             title: 'График температуры',
             xaxis: { title: 'Время' },
             yaxis: { title: 'Температура (градусы Цельсия)' }
         };
 
-        // Создаем объект с данными для графика
-        var trace = {
-            x: data.timestamps,
-            y: data.temperatures,
-            type: 'scatter',
-            mode: 'lines+markers' // Добавляем режим линий и маркеров
-        };
+        // Функция для отрисовки графика с заданными данными
+        function plotGraph(data) {
+            var trace = {
+                x: data.timestamps,
+                y: data.temperatures,
+                type: 'scatter',
+                mode: 'lines+markers'
+            };
 
-        // Рисуем график
-        Plotly.newPlot('graph', [trace], layout);
+            Plotly.newPlot('graph', [trace], layout);
+        }
+
+        // Инициализация графика при загрузке страницы
+        plotGraph(getTemperatureData('day'));
+
+        // Функция для обработки нажатия на кнопки выбора временного диапазона
+        function getData(range) {
+            var data = getTemperatureData(range);
+            plotGraph(data);
+        }
     </script>
 </body>
 </html>
