@@ -26,7 +26,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     let defaultUrl = 'https://api.thingspeak.com/channels/2447664/feeds.json?api_key=YGABPVZSCX5NJB3A';
     let chart;
-    let zeroDate; // Объявляем переменную zeroDate
 
     function fetchDataAndDrawChart(url) {
         fetch(url)
@@ -38,23 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     return date.getTime(); // Преобразование в миллисекунды
                 });
 
-                // Находим нулевую метку
-                zeroDate = new Date(timeLabels[0]); // Присваиваем значение переменной zeroDate
-                zeroDate.setHours(0, 0, 0, 0); // Установка времени на 00:00
-
-                // Проверяем, если нулевая метка не равна нулю
-                if (zeroDate.getTime() !== 0) {
-                    // Вычисляем количество дополнительных делений в начале графика
-                    const stepSize = 120; // Здесь вы можете использовать ваш шаг
-                    const additionalTicks = Math.abs(zeroDate.getTime() / (1000 * 60)) / stepSize;
-                    for (let i = 1; i <= additionalTicks; i++) {
-                        timeLabels.unshift(i * (-stepSize));
-                        temperatureData.unshift(null);
-                    }
-                }
-
-                // Нормализация значений времени относительно нулевой метки
-                const normalizedTimeLabels = timeLabels.map(time => time / (1000 * 60)); // Перевод в минуты относительно нулевой метки
+                // Нормализация значений времени
+                const startTime = timeLabels[0];
+                const normalizedTimeLabels = timeLabels.map(time => (time - startTime) / (1000 * 60)); // перевод в минуты
 
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 chart = new Chart(ctx, {
@@ -86,10 +71,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                     display: true,
                                     text: 'Время (минуты)'
                                 },
+                                min: 0, // Set the minimum value for the x-axis ticks to 0
                                 ticks: {
-                                    stepSize: 120, // Здесь также используется ваш шаг
-                                    min: 0, // Установка минимального значения на оси времени
-                                    max: Math.max(...normalizedTimeLabels) // Установка максимального значения на оси времени
+                                    stepSize: 1 // изменение шага на 10 минут
                                 }
                             },
                             y: {
@@ -101,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 });
+
                 const maxTemperature = Math.max(...temperatureData);
                 const minTemperature = Math.min(...temperatureData);
                 const currentTemperature = temperatureData[temperatureData.length - 1];
@@ -132,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
                     ${url.includes('days=1') ? `<p>Суточный ход температуры воздуха: ${dailyTemperatureRange.toFixed(2)}°C </p>` : ''}
                     <p>Средняя температура воздуха: ${averageTemperature.toFixed(2)}°C</p>
-                    <p>Дата начала измерений в минутах: ${zeroDate.getTime() / (1000 * 60)}</p>
                 `;
 
                 function getTimestampOfTemperature(temperature, data) {
@@ -143,16 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     return 'неизвестно';
                 }
-
-                // Форматирование даты нулевой метки для вывода
-                const zeroDateFormatted = zeroDate.toLocaleDateString('ru-RU', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-
-                // Вывод даты нулевой метки под графиком
-                document.getElementById('zeroDate').innerText = `Дата начала измерений: ${zeroDateFormatted}`;
             })
             .catch(error => console.error('Ошибка при получении данных:', error));
     }
@@ -161,8 +135,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 </script>
-
-<div id="zeroDate" style="font-size: 18px;"></div>
 
 </body>
 </html>
