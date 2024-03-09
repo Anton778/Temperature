@@ -52,32 +52,32 @@ document.addEventListener('DOMContentLoaded', function() {
                         }]
                     },
                     options: {
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    mode: 'index',
-                    intersect: false
-                }
-            },
-            scales: {
-                x: {
-                    type: 'linear',
-                    title: {
-                        display: true,
-                        text: 'Время (часы)'
-                    },
-                    ticks: {
-                        stepSize: 5
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Температура (°C)'
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        },
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                title: {
+                                    display: true,
+                                    text: 'Время (часы)'
+                                },
+                                ticks: {
+                                    stepSize: 5
                                 }
-                            }]
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Температура (°C)'
+                                }
+                            }
                         }
                     }
                 });
