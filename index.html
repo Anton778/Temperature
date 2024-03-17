@@ -174,7 +174,7 @@ function getDataForLastDay() {
 function getDataForLastTwoDays() {
     endDate = new Date(); // Текущая дата и время
     startDate = new Date(endDate); // Копируем текущую дату и время
-    startDate.setDate(startDate.getDate() - 2); // Устанавливаем начало предыдущего дня
+    startDate.setDate(startDate.getDate() - 1); // Устанавливаем начало предыдущего дня
     startDate.setHours(0, 0, 0, 0); // Устанавливаем начало дня (00:00)
     milliseconds = startDate.getTime(); // Переводим в миллисекунды
 
