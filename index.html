@@ -101,16 +101,16 @@ function fetchDataAndDrawChart(url, min, max, startDate, endDate) {
                                 stepSize: 1, // Шаг по оси X
                                 callback: formatTimeLabel // Форматирование временных меток
                             },
-                            min: 0,
-                            max: 40
-                            //min: min, // Минимальное значение оси X
-                            //max: max // Максимальное значение оси X
+                            min: min, // Минимальное значение оси X
+                            max: max // Максимальное значение оси X
                         },
                         y: {
                             title: {
                                 display: true,
                                 text: 'Температура (°C)'
                             }
+                            min: 0,
+                            max: 40
                         }
                     }
                 }
