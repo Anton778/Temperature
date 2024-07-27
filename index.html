@@ -9,7 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
 </head>
 <body>
-  <h1>Зависимость </h1>
+  <h1>Последние значения с ThingSpeak</h1>
   <div>
     <label for="numPoints">Количество точек:</label>
     <input type="number" id="numPoints" value="100">
@@ -75,11 +75,24 @@
               x: {
                 type: 'time',
                 time: {
-                  unit: 'minute'
+                  tooltipFormat: 'DD.MM.YYYY HH:mm', // Формат времени в подсказке
+                  displayFormats: {
+                    minute: 'DD.MM.YYYY HH:mm', // Формат времени на оси X
+                    hour: 'DD.MM.YYYY HH:mm',
+                    day: 'DD.MM.YYYY HH:mm'
+                  }
+                },
+                title: {
+                  display: true,
+                  text: 'Время'
                 }
               },
               y: {
-                beginAtZero: true
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Температура, °C'
+                }
               }
             }
           }
