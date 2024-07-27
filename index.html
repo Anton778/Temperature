@@ -9,7 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
 </head>
 <body>
-  <h1>Последние значения с ThingSpeak</h1>
+  <h1>Зависимость </h1>
   <div>
     <label for="numPoints">Количество точек:</label>
     <input type="number" id="numPoints" value="100">
@@ -24,6 +24,8 @@
     const CHANNEL_ID = '2447664';
     const API_KEY = 'VI1SAPXF2JG27280';
     const API_URL = `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds.json`;
+
+    let chart; // Глобальная переменная для хранения объекта графика
 
     // Функция для получения данных с ThingSpeak
     async function fetchData() {
@@ -49,9 +51,14 @@
         console.log('Labels:', labels); // Отладочный вывод меток
         console.log('Field1 Data:', field1Data); // Отладочный вывод данных поля 1
 
-        // Создаем график
+        // Удаляем предыдущий график, если он существует
+        if (chart) {
+          chart.destroy();
+        }
+
+        // Создаем новый график
         const ctx = document.getElementById('chart').getContext('2d');
-        new Chart(ctx, {
+        chart = new Chart(ctx, {
           type: 'line',
           data: {
             labels: labels,
