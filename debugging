@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThingSpeak Data</title>
+</head>
+<body>
+  <h1>Последние значения с ThingSpeak</h1>
+  <div id="data">
+    <p>Поле 1: <span id="field1"></span></p>
+    <p>Поле 2 (оригинальное): <span id="field2"></span></p>
+    <p>Поле 2 (переведённое): <span id="field2_converted"></span></p>
+  </div>
+
+  <script>
+    // Замените YOUR_CHANNEL_ID и YOUR_READ_API_KEY на свои значения
+    const CHANNEL_ID = '2447664';
+    const API_KEY = 'VI1SAPXF2JG27280';
+    const API_URL = `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds/last.json`;
+
+    // Функция для получения данных с ThingSpeak
+    async function fetchData() {
+      try {
+        const response = await fetch(`${API_URL}?api_key=${API_KEY}`);
+        const data = await response.json();
+        
+        // Обновляем значения на странице
+        document.getElementById('field1').textContent = data.field1;
+        document.getElementById('field2').textContent = data.field2;
+
+        // Преобразуем Unix timestamp в дату
+        const timestamp = parseInt(data.field2, 10);
+        const date = new Date(timestamp * 1000);
+        const formattedDate = date.toLocaleString(); // Вы можете изменить форматирование по вашему желанию
+
+        document.getElementById('field2_converted').textContent = formattedDate;
+      } catch (error) {
+        console.error('Ошибка при получении данных с ThingSpeak:', error);
+      }
+    }
+
+    // Вызываем функцию fetchData при загрузке страницы
+    window.onload = fetchData;
+  </script>
+</body>
+</html>
