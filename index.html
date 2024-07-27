@@ -42,8 +42,7 @@ function fetchDataAndDrawChart(url, min, max, startDate, endDate) {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            const field1Data = data.feeds.map(feed => parseFloat(feed.field1));
-            const field2Data = data.feeds.map(feed => parseFloat(feed.field2));
+            const temperatureData = data.feeds.map(feed => parseFloat(feed.field1));
             const timeLabels = data.feeds.map(feed => {
                 const date = new Date(feed.created_at);
                 return date.getTime(); // Преобразование в миллисекунды
@@ -60,23 +59,17 @@ function fetchDataAndDrawChart(url, min, max, startDate, endDate) {
                 data: {
                     labels: normalizedTimeLabels,
                     datasets: [{
-                        label: 'Поле 1',
-                        data: field1Data,
-                        borderColor: 'red',
-                        backgroundColor: 'transparent',
-                        fill: false,
-                    }, {
-                        label: 'Поле 2',
-                        data: field2Data,
-                        borderColor: 'blue',
-                        backgroundColor: 'transparent',
+                        label: 'Температура в городе Бердске',
+                        data: temperatureData,
+                        borderColor: 'black',
+                        backgroundColor: 'lightblue',
                         fill: false,
                     }]
                 },
                 options: {
                     plugins: {
                         legend: {
-                            display: true
+                            display: false
                         },
                         tooltip: {
                             mode: 'index',
@@ -123,23 +116,37 @@ function fetchDataAndDrawChart(url, min, max, startDate, endDate) {
                 }
             });
 
-            const maxTemperature1 = Math.max(...field1Data);
-            const minTemperature1 = Math.min(...field1Data);
-            const currentTemperature1 = field1Data[field1Data.length - 1];
-            
-            const maxTemperature2 = Math.max(...field2Data);
-            const minTemperature2 = Math.min(...field2Data);
-            const currentTemperature2 = field2Data[field2Data.length - 1];
+            const maxTemperature = Math.max(...temperatureData);
+            const minTemperature = Math.min(...temperatureData);
+            const currentTemperature = temperatureData[temperatureData.length - 1];
+            const dailyTemperatureRange = maxTemperature - minTemperature;
+            const averageTemperature = temperatureData.reduce((sum, temp) => sum + temp, 0) / temperatureData.length;
+
+            function highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature) {
+                const dataset = chart.data.datasets[0];
+                const data = dataset.data;
+                const backgroundColors = Array(data.length).fill('lightblue');
+                const maxTemperatureIndex = data.findIndex(temp => temp === maxTemperature);
+                const minTemperatureIndex = data.findIndex(temp => temp === minTemperature);
+                if (maxTemperatureIndex !== -1) {
+                    backgroundColors[maxTemperatureIndex] = 'red';
+                }
+                if (minTemperatureIndex !== -1) {
+                    backgroundColors[minTemperatureIndex] = 'blue';
+                }
+                dataset.backgroundColor = backgroundColors;
+                chart.update();
+            }
+
+            highlightMinMaxTemperature(currentTemperature, maxTemperature, minTemperature);
 
             const minMaxTemperaturesElement = document.getElementById('minMaxTemperatures');
             minMaxTemperaturesElement.innerHTML = `
-                <p>Текущая температура (Поле 1): ${currentTemperature1}°C</p>
-                <p>Максимальная температура (Поле 1): ${maxTemperature1}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature1, data)}</p>
-                <p>Минимальная температура (Поле 1): ${minTemperature1}°C была зафиксирована ${getTimestampOfTemperature(minTemperature1, data)}</p>
-                <br>
-                <p>Текущая температура (Поле 2): ${currentTemperature2}°C</p>
-                <p>Максимальная температура (Поле 2): ${maxTemperature2}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature2, data)}</p>
-                <p>Минимальная температура (Поле 2): ${minTemperature2}°C была зафиксирована ${getTimestampOfTemperature(minTemperature2, data)}</p>
+                <p>Текущая температура: ${currentTemperature}°C</p>
+                <p>Максимальная температура: ${maxTemperature}°C была зафиксирована ${getTimestampOfTemperature(maxTemperature, data)}</p>
+                <p>Минимальная температура: ${minTemperature}°C была зафиксирована ${getTimestampOfTemperature(minTemperature, data)}</p>
+                ${url.includes('start=') ? `<p>Суточный ход температуры воздуха: ${dailyTemperatureRange.toFixed(2)}°C </p>` : ''}
+                <p>Средняя температура воздуха: ${averageTemperature.toFixed(2)}°C</p>
             `;
 
             function getTimestampOfTemperature(temperature, data) {
@@ -178,4 +185,28 @@ function getDataForLastTwoDays() {
     const endDateString = endDate.toISOString().slice(0, 19);
     const startDateString = startDate.toISOString().slice(0, 19);
     const urlForLastTwoDays = defaultUrl + `&start=${startDateString}&end=${endDateString}`;
-    fetchDataAndDrawChart(url
+    fetchDataAndDrawChart(urlForLastTwoDays, -24, 24, startDate, endDate);
+
+    // Обновляем начальное значение для начальной даты на 24 часа назад от текущей даты
+    startDate.setDate(endDate.getDate() - 1);
+    milliseconds = startDate.getTime();
+
+    // Обновляем начальное значение на графике
+    chart.options.scales.x.min = -24;
+    chart.options.scales.x.max = 0;
+    chart.update();
+}
+
+getDataForLastDay(); // Вызываем функцию для получения данных за последний день
+
+document.getElementById('oneDayButton').addEventListener('click', function() {
+    getDataForLastDay();
+});
+
+document.getElementById('twoDaysButton').addEventListener('click', function() {
+    getDataForLastTwoDays();
+});
+</script>
+
+</body>
+</html>
